@@ -12,7 +12,7 @@ async function initGame() {
     
     // Promessas paralelas para ser mais rápido
     const [playerData, enemyData] = await Promise.all([
-        fetchPokemon('mewtwo'),      // Podes mudar o pokemon do jogador aqui
+        fetchPokemon('xerneas'),      // Podes mudar o pokemon do jogador aqui
         fetchPokemon(randomId)
     ]);
 
