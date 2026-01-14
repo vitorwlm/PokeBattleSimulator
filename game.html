@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <title>PokéBattle Simulator</title>
+    <link rel="stylesheet" href="/styles/styles.css" />
+  </head>
+  <body>
+    <div class="main-container">
+      <div class="battle-arena">
+        <div class="pokemon-card">
+          <h2 id="enemy-name">Carregando...</h2>
+          <img id="enemy-img" src="" alt="Inimigo" />
+          <div class="hp-container">
+            <div id="enemy-hp-bar" class="hp-fill"></div>
+          </div>
+          <p id="enemy-hp-text">HP: 0</p>
+        </div>
+
+        <div class="vs">VS</div>
+
+        <div class="pokemon-card">
+          <img id="player-img" src="" alt="Jogador" />
+          <h2 id="player-name">Carregando...</h2>
+          <div class="hp-container">
+            <div id="player-hp-bar" class="hp-fill"></div>
+          </div>
+          <p id="player-hp-text">HP: 0</p>
+
+          <div id="moves-container" class="moves-box"></div>
+        </div>
+      </div>
+
+      <div id="battle-log" class="log-box">A preparar batalha...</div>
+
+    </div>
+    <script src="/scripts/battle.js"></script>
+    <script src="/scripts/setup.js"></script>
+  </body>
+</html>

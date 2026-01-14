@@ -1,0 +1,78 @@
+body {
+    font-family: 'Verdana', sans-serif;
+    background-color: #f0f0f0;
+    text-align: center;
+}
+
+.main-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.battle-arena {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.pokemon-card {
+    width: 40%;
+}
+
+img {
+    width: 150px;
+    height: 150px;
+}
+
+/* Barra de Vida */
+.hp-container {
+    width: 100%;
+    background-color: #ddd;
+    height: 20px;
+    border-radius: 10px;
+    margin: 10px 0;
+    overflow: hidden;
+}
+
+.hp-fill {
+    height: 100%;
+    background-color: #4caf50; /* Verde */
+    width: 100%; /* Começa cheio */
+    transition: width 0.5s;
+}
+
+/* Botões e Logs */
+.moves-box {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+button {
+    padding: 10px;
+    cursor: pointer;
+    background-color: #ffcb05;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.log-box {
+    margin-top: 20px;
+    padding: 10px;
+    background: #333;
+    color: white;
+    border-radius: 5px;
+    min-height: 40px;
+}
