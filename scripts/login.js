@@ -4,12 +4,11 @@ const POKE_API_URL = 'https://pokeapi.co/api/v2/pokemon/';
 const loginForm = document.getElementById('login-form');
 
 loginForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-
+    e.preventDefault();//prevenir o reload da pagina
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
 
-    // Verificar credenciais na Mock API
+    // Verificar credenciais na Mock
     try {
         const response = await fetch(MOCK_API_URL);
         const users = await response.json();
