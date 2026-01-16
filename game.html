@@ -1,43 +1,54 @@
 <!DOCTYPE html>
 <html lang="pt">
-  <head>
-    <meta charset="UTF-8" />
-    <title>PokéBattle Simulator</title>
-    <link rel="stylesheet" href="/styles/styles.css" />
-  </head>
-  <body>
-    <div class="main-container">
-      <div class="battle-arena">
-        <div class="pokemon-card">
-          <h2 id="enemy-name">Carregando...</h2>
-          <img id="enemy-img" src="" alt="Inimigo" />
-          <div class="hp-container">
-            <div id="enemy-hp-bar" class="hp-fill"></div>
-          </div>
-          <p id="enemy-hp-text">HP: 0</p>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PokéBattle Simulator</title>
+  <link rel="stylesheet" href="styles/battle.css" />
+</head>
+
+<body>
+
+  <div class="main-container">
+
+    <div class="battle-arena">
+
+      <div class="pokemon-card enemy">
+        <h2 id="enemy-name">Carregando...</h2>
+        <img id="enemy-img" src="" alt="Inimigo" />
+
+        <div class="hp-container">
+          <div id="enemy-hp-bar" class="hp-fill"></div>
         </div>
+        <p id="enemy-hp-text">HP: 100/100</p>
+      </div>
 
-        <div class="vs">VS</div>
+      <div class="vs">VS</div>
 
-        <div class="pokemon-card">
-          <img id="player-img" src="" alt="Jogador" />
-          <h2 id="player-name">Carregando...</h2>
-          <div class="hp-container">
-            <div id="player-hp-bar" class="hp-fill"></div>
-          </div>
-          <p id="player-hp-text">HP: 0</p>
+      <div class="pokemon-card player">
+        <img id="player-img" src="" alt="Jogador" />
+        <h2 id="player-name">Carregando...</h2>
 
-          <div id="moves-container" class="moves-box"></div>
+        <div class="hp-container">
+          <div id="player-hp-bar" class="hp-fill"></div>
+        </div>
+        <p id="player-hp-text">HP: 100/100</p>
+
+        <div id="moves-container" class="moves-box">
         </div>
       </div>
 
-      <div id="battle-log" class="log-box">A preparar batalha...</div>
-
     </div>
 
-    <a href="index.html">return to menu</a>
+    <div id="battle-log" class="log-box">A preparar batalha...</div>
 
-    <script src="/scripts/battle.js"></script>
-    <script src="/scripts/setup.js"></script>
-  </body>
+  </div>
+
+  <a href="index.html" class="back-link">Voltar ao Menu</a>
+
+  <script src="scripts/battle.js"></script>
+
+</body>
+
 </html>

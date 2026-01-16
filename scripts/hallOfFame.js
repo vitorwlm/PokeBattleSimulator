@@ -1,4 +1,4 @@
-const MOCK_API_URL = 'https://69658367f6de16bde44a811e.mockapi.io/pks/Players'; 
+const MOCK_API_URL = 'https://69658367f6de16bde44a811e.mockapi.io/pks/Players';
 const POKE_API_URL = 'https://pokeapi.co/api/v2/pokemon/';
 
 
@@ -16,10 +16,10 @@ async function saveWinner() {
 
     await fetch("https://69652f8ee8ce952ce1f47235.mockapi.io/winner", {
         method: 'POST',
-        headers: {'Content-Type': 'application/json'},
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
     });
-    
+
     alert("Guardado no Ranking!");
     loadRanking(); // Atualiza a lista
 }
@@ -28,10 +28,10 @@ async function loadRanking() {
     try {
         const res = await fetch("https://69652f8ee8ce952ce1f47235.mockapi.io/winner");
         const data = await res.json();
-        
+
         const list = document.getElementById('ranking-list');
         list.innerHTML = '';
-        
+
         // Mostrar os últimos 5 vencedores (invertendo o array)
         data.slice(-5).reverse().forEach(winner => {
             const li = document.createElement('li');

@@ -13,9 +13,9 @@ registerForm.addEventListener("submit", async (e) => {
   try {
     // 1. Buscar utilizadores existentes
     const checkResponse = await fetch(MOCK_API_URL);
-    
+
     if (!checkResponse.ok) throw new Error("Erro ao verificar utilizadores");
-    
+
     const users = await checkResponse.json();
 
     // Queremos saber se JÁ EXISTE aquele email OU aquele username
@@ -45,7 +45,7 @@ registerForm.addEventListener("submit", async (e) => {
     if (createResponse.ok) {
       alert("Registado com sucesso!");
       // Nota: Removi a barra inicial "/" para funcionar melhor localmente
-      window.location.href = "game.html"; 
+      window.location.href = "game.html";
     } else {
       alert("Erro ao criar conta: " + createResponse.statusText);
     }

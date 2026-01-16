@@ -1,0 +1,114 @@
+/* Reset Básico */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f0f0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    padding: 20px;
+}
+
+.main-container {
+    max-width: 800px;
+    width: 100%;
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Arena de Batalha */
+.battle-arena {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    /* Para telemóveis */
+    gap: 20px;
+}
+
+.vs {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #d32f2f;
+    font-style: italic;
+}
+
+/* Cartas de Pokémon */
+.pokemon-card {
+    text-align: center;
+    width: 200px;
+}
+
+.pokemon-card img {
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+    margin-bottom: 10px;
+}
+
+/* Barras de Vida (HP) */
+.hp-container {
+    width: 100%;
+    height: 20px;
+    background-color: #e0e0e0;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #ccc;
+    margin: 5px 0;
+}
+
+.hp-fill {
+    height: 100%;
+    width: 100%;
+    /* Começa cheio */
+    background-color: #4caf50;
+    /* Verde */
+    transition: width 0.5s ease, background-color 0.3s;
+}
+
+/* Quando o HP está baixo (classe opcional para adicionar via JS) */
+.hp-fill.low {
+    background-color: #f44336;
+    /* Vermelho */
+}
+
+/* Caixa de Ataques */
+.moves-box {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5px;
+    margin-top: 15px;
+}
+
+.moves-box button {
+    padding: 8px;
+    cursor: pointer;
+    background-color: #2196f3;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+.moves-box button:hover {
+    background-color: #1976d2;
+}
+
+/* Log de Batalha */
+.log-box {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    min-height: 50px;
+    border: 2px solid #000;
+    font-family: monospace;
+}
+
+.back-link {
+    margin-top: 20px;
+    text-decoration: none;
+    color: #333;
+}
