@@ -45,7 +45,7 @@ registerForm.addEventListener("submit", async (e) => {
     if (createResponse.ok) {
       alert("Registado com sucesso!");
       // Nota: Removi a barra inicial "/" para funcionar melhor localmente
-      window.location.href = "game.html";
+      window.location.href = "/html/game.html";
     } else {
       alert("Erro ao criar conta: " + createResponse.statusText);
     }

@@ -1,0 +1,4 @@
+Neste momento 
+o login funciona
+o register funciona
+o jogo deixou de carregar

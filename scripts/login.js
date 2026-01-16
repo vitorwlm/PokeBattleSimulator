@@ -16,7 +16,7 @@ loginForm.addEventListener('submit', async (e) => {
 
         if (user) {
             alert('Login bem-sucedido!');
-            window.location.href = '/game.html';
+            window.location.href = '/html/game.html';
         } else {
             alert('Credenciais inválidas. Tenta novamente.');
         }
