@@ -8,11 +8,12 @@ let enemy = {};
 async function initGame() {
     // Carregar Jogador (Ex: Pikachu) e Inimigo Aleatório
     const randomId = Math.floor(Math.random() * 150) + 1;
+    const randomId2 = Math.floor(Math.random() * 150) + 1;
 
     // Promessas paralelas para ser mais rápido
     const [playerData, enemyData] = await Promise.all([
-        fetchPokemon("xerneas"), // Podes mudar o pokemon do jogador aqui
-        fetchPokemon(randomId),
+        fetchPokemon(randomId), // Podes mudar o pokemon do jogador aqui
+        fetchPokemon(randomId2),
     ]);
 
     player = playerData;

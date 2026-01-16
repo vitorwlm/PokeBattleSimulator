@@ -9,10 +9,66 @@
 </head>
 
 <body>
-    <h1>Bem-vindo ao PokeBattle Simulator</h1>
-    <h2>Para começar a jogar, registre-se ou faça login.</h2>
-    <a href="html/register.html"><button>Registar</button></a>
-    <a href="html/login.html"><button>Login</button></a>
+    <div class="main-cont">
+        <h1>Bem-vindo ao PokeBattle Simulator</h1>
+        <h2>Para começar a jogar, registre-se ou faça login.</h2>
+    </div>
+
+    <button id="auth">Autenticação</button>
+
+    <div id="auth-modal" class="modal">
+        
+        <div id="auth-login" class="auth-card">
+            <h3>Login</h3>
+            <form id="login-form">
+                <table>
+                    <tr>
+                        <td><label for="login-username">Utilizador:</label></td>
+                        <td><input type="text" id="login-username" name="username" required /></td>
+                    </tr>
+                    <tr>
+                        <td><label for="login-password">Senha:</label></td>
+                        <td><input type="password" id="login-password" name="password" required /></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <button type="submit">Entrar</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+
+        <div id="auth-register" class="auth-card">
+            <h3>Registo</h3>
+            <form id="register-form">
+                <table>
+                    <tr>
+                        <td><label for="reg-email">Email:</label></td>
+                        <td><input type="email" id="reg-email" name="email" required /></td>
+                    </tr>
+                    <tr>
+                        <td><label for="reg-username">Utilizador:</label></td>
+                        <td><input type="text" id="reg-username" name="username" required /></td>
+                    </tr>
+                    <tr>
+                        <td><label for="reg-password">Senha:</label></td>
+                        <td><input type="password" id="reg-password" name="password" required /></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <button type="submit">Registar</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+
+    </div>
+
+    <script src="/scripts/modal.js"></script>
+    <script src="/scripts/login.js"></script>
+    <script src="/scripts/register.js"></script>
 
 </body>
 </html>
