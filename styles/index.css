@@ -1,0 +1,181 @@
+/* =========================================
+   1. ESTILOS GERAIS (GLOBAL)
+   ========================================= */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* Mantive o teu gradiente original, é mais bonito que o cinza liso */
+    background: linear-gradient(135deg, #f5f5f5 0%, #dcdcdc 100%);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    color: #ffcb05;
+    text-shadow: 3px 3px 0px #2a75bb, -1px -1px 0 #2a75bb, 1px -1px 0 #2a75bb, -1px 1px 0 #2a75bb, 1px 1px 0 #2a75bb;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+h2 {
+    font-size: 1.2rem;
+    color: #555;
+    font-weight: normal;
+    margin-bottom: 40px;
+    max-width: 600px;
+    line-height: 1.5;
+}
+
+a {
+    text-decoration: none;
+    margin: 0 10px;
+    display: inline-block;
+}
+
+/* =========================================
+   2. BOTÕES (Estilo Pokémon)
+   ========================================= */
+button {
+    background-color: #3b4cca;
+    color: #ffcb05;
+    border: 2px solid #2a3b93;
+    padding: 15px 40px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-transform: uppercase;
+}
+
+button:hover {
+    background-color: #ffcb05;
+    color: #3b4cca;
+    border-color: #c7a008;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* =========================================
+   3. O MODAL (Pop-up)
+   ========================================= */
+
+/* Fundo Escuro (Overlay) */
+.modal {
+    display: none; /* Começa escondido */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    
+    /* Centralização e Alinhamento */
+    align-items: center;
+    justify-content: center;
+    gap: 20px; /* Espaço entre Login e Registo */
+    backdrop-filter: blur(3px); /* Desfoque ligeiro no fundo */
+}
+
+/* Classe que o JS ativa */
+.modal.show {
+    display: flex; 
+}
+
+/* As caixas brancas (Login e Registo) */
+#auth-login, #auth-register {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    width: 300px;
+    text-align: left; /* Para os labels ficarem à esquerda */
+    animation: slideDown 0.3s ease-out;
+}
+
+/* Animação de entrada */
+@keyframes slideDown {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* =========================================
+   4. FORMULÁRIOS (Inputs e Labels)
+   ========================================= */
+form table {
+    width: 100%;
+}
+
+form td {
+    padding: 8px 0;
+}
+
+label {
+    font-weight: bold;
+    color: #333;
+    display: block;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* Botão específico de enviar formulário (mais pequeno que o principal) */
+form button {
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+/* =========================================
+   5. RESPONSIVIDADE (Mobile)
+   ========================================= */
+@media (max-width: 700px) {
+    /* Ajustes de Texto */
+    h1 {
+        font-size: 2rem;
+        padding: 0 20px;
+    }
+
+    h2 {
+        font-size: 1rem;
+        padding: 0 20px;
+    }
+
+    /* Ajustes do Modal para Telemóvel */
+    .modal {
+        flex-direction: column; /* Coloca um por cima do outro */
+        padding: 20px 0;
+        overflow-y: auto; /* Permite fazer scroll se não caber no ecrã */
+    }
+    
+    #auth-login, #auth-register {
+        width: 80%;       /* Ocupa a largura quase toda */
+        margin-bottom: 20px;
+    }
+
+    /* Ajuste de Botões Gerais */
+    button {
+        width: 80%;
+        max-width: 300px;
+    }
+}
