@@ -1,0 +1,2 @@
+// Configuracao Global da API
+const MOCK_API_URL = "https://69658367f6de16bde44a811e.mockapi.io/pks/Players";
