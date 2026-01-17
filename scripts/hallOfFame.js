@@ -50,7 +50,10 @@ async function loadRanking() {
         const data = await res.json();
 
         const list = document.getElementById('ranking-list');
-        if (!list) return;
+        if (!list) {
+            console.warn("Elemento 'ranking-list' não encontrado no HTML.");
+            return;
+        }
 
         list.innerHTML = '';
 

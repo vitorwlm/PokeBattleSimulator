@@ -41,6 +41,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 if (createResponse.ok) {
+                    // Obter o utilizador criado (com ID gerado) e iniciar sessão automaticamente
+                    const newUser = await createResponse.json();
+                    localStorage.setItem('currentUser', JSON.stringify(newUser));
                     alert("Registado com sucesso!");
                     window.location.href = "/html/game.html";
                 } else {

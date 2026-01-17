@@ -15,7 +15,8 @@ async function handleAttack(move) {
     // Verificar vitória
     if (enemy.currentHp === 0) {
         log("🏆 Venceste a batalha!");
-        saveWinner();
+        await saveWinner();
+        showRestartButton();
         return;
     }
 
@@ -31,6 +32,7 @@ async function handleAttack(move) {
         // Verificar derrota ou continuar
         if (player.currentHp === 0) {
             log("💀 Perdeste... Tenta novamente (F5).");
+            showRestartButton();
         } else {
             toggleButtons(true);
         }
@@ -65,4 +67,16 @@ function log(message) {
 function toggleButtons(enable) {
     const btns = document.querySelectorAll('.move-btn');
     btns.forEach(btn => btn.disabled = !enable);
+}
+
+// Função auxiliar para criar botão de reinício
+function showRestartButton() {
+    const container = document.getElementById('moves-container');
+    container.innerHTML = ''; // Limpar botões de ataque
+    
+    const btn = document.createElement('button');
+    btn.innerText = "Jogar Novamente";
+    btn.className = "move-btn";
+    btn.onclick = () => window.location.reload();
+    container.appendChild(btn);
 }
