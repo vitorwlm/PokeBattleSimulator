@@ -1,9 +1,8 @@
-// --- LÓGICA DE BATALHA ---
-
+// Lógica de atacar: turno do jogador seguido de turno do inimigo (com delay)
 async function handleAttack(move) {
-    // 1. Turno do Jogador
-    toggleButtons(false); // Bloqueia cliques
+    toggleButtons(false);
     
+    // Jogador ataca
     const damage = calculateDamage(player, enemy);
     enemy.currentHp -= damage;
     if (enemy.currentHp < 0) enemy.currentHp = 0;
@@ -11,14 +10,13 @@ async function handleAttack(move) {
     updateHealthUI('enemy', enemy);
     log(`${player.name} usou ${move.name} e causou ${damage} dano!`);
 
-    // Verificar Vitória
+    // Verificar vitória
     if (enemy.currentHp === 0) {
         log("🏆 Venceste a batalha!");
-        // A função de salvar o vencedor foi removida aqui
         return;
     }
 
-    // 2. Turno do Inimigo (após 1.5s)
+    // Inimigo ataca após 1.5 segundos
     setTimeout(() => {
         const enemyDamage = calculateDamage(enemy, player);
         player.currentHp -= enemyDamage;
@@ -27,39 +25,40 @@ async function handleAttack(move) {
         updateHealthUI('player', player);
         log(`O Inimigo atacou e causou ${enemyDamage} dano!`);
 
+        // Verificar derrota ou continuar
         if (player.currentHp === 0) {
             log("💀 Perdeste... Tenta novamente (F5).");
         } else {
-            toggleButtons(true); // Devolve o turno ao jogador
+            toggleButtons(true);
         }
     }, 1500);
 }
 
-// Fórmula de Dano Simplificada
+// Calcular dano baseado em ataque/defesa com variação aleatória
 function calculateDamage(attacker, defender) {
-    // Dano = (Ataque / Defesa) * Fator Aleatório
     const baseDamage = (attacker.attack / defender.defense) * 20;
-    const random = (Math.random() * 0.4) + 0.8; // Variação entre 0.8 e 1.2
+    const random = (Math.random() * 0.4) + 0.8;
     return Math.floor(baseDamage * random);
 }
 
-// --- UI HELPERS ---
-
+// Atualizar barra de HP na interface
 function updateHealthUI(type, pokemon) {
     const percent = (pokemon.currentHp / pokemon.maxHp) * 100;
     document.getElementById(`${type}-hp-bar`).style.width = `${percent}%`;
     document.getElementById(`${type}-hp-text`).innerText = `${pokemon.currentHp}/${pokemon.maxHp}`;
     
-    // Mudar cor se vida baixa
+    // HP baixo = barra vermelha
     if(percent < 20) {
         document.getElementById(`${type}-hp-bar`).style.backgroundColor = 'red';
     }
 }
 
+// Mostrar mensagem no log de batalha
 function log(message) {
     document.getElementById('battle-log').innerText = message;
 }
 
+// Ativar/desativar botões de ataque durante o turno do inimigo
 function toggleButtons(enable) {
     const btns = document.querySelectorAll('.move-btn');
     btns.forEach(btn => btn.disabled = !enable);

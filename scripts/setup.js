@@ -1,17 +1,56 @@
 
-
 let player = {};
 let enemy = {};
 
-// --- INICIALIZAÇÃO ---
-async function initGame() {
-    // Carregar Jogador (Ex: Pikachu) e Inimigo Aleatório
-    const randomId = Math.floor(Math.random() * 150) + 1;
-    const playerPokemonId = 25; // Pikachu
+// Pokémon disponíveis para seleção inicial
+const POKEMON_CHOICES = [25, 4, 7, 39, 58, 54, 60, 66, 69, 74];
 
-    // Promessas paralelas para ser mais rápido
+// Carregar e mostrar grid de seleção de Pokémon
+async function showPokemonSelection() {
+    const pokemonList = document.getElementById('pokemon-list');
+    pokemonList.innerHTML = '<p>Carregando Pokémon...</p>';
+
+    try {
+        pokemonList.innerHTML = '';
+
+        // Carregar cada Pokémon e criar card clicável
+        for (const id of POKEMON_CHOICES) {
+            try {
+                const pokemon = await fetchPokemon(id);
+                const card = document.createElement('div');
+                card.className = 'pokemon-choice';
+                card.innerHTML = `
+                    <img src="${pokemon.sprite}" alt="${pokemon.name}" />
+                    <p>${pokemon.name}</p>
+                `;
+                card.onclick = () => selectPokemon(id);
+                pokemonList.appendChild(card);
+            } catch (error) {
+                console.error(`Erro ao carregar Pokémon ${id}:`, error);
+            }
+        }
+    } catch (error) {
+        console.error('Erro na seleção de Pokémon:', error);
+        pokemonList.innerHTML = '<p style="color: red;">Erro ao carregar Pokémon</p>';
+    }
+}
+
+// Guardar escolha e iniciar batalha
+function selectPokemon(pokemonId) {
+    localStorage.setItem('selectedPokemon', pokemonId);
+    document.getElementById('pokemon-selection').style.display = 'none';
+    document.getElementById('main-container').style.display = 'block';
+    initGame();
+}
+
+// Inicializar batalha: carregar Pokémon do jogador (escolhido) e inimigo (aleatório)
+async function initGame() {
+    const selectedPokemon = localStorage.getItem('selectedPokemon') || 25;
+    const randomId = Math.floor(Math.random() * 150) + 1;
+
+    // Carregar ambos os Pokémon em paralelo
     const [playerData, enemyData] = await Promise.all([
-        fetchPokemon(playerPokemonId), // Podes mudar o pokemon do jogador aqui
+        fetchPokemon(selectedPokemon),
         fetchPokemon(randomId),
     ]);
 
@@ -22,7 +61,7 @@ async function initGame() {
     log("Batalha iniciada! A tua vez.");
 }
 
-// Buscar dados da PokéAPI
+// Buscar dados do Pokémon da PokéAPI e extrair informações relevantes
 async function fetchPokemon(idOrName) {
     const res = await fetch(`${POKE_API_URL}${idOrName}`);
     const data = await res.json();
@@ -30,29 +69,27 @@ async function fetchPokemon(idOrName) {
     return {
         name: data.name.toUpperCase(),
         sprite: data.sprites.front_default,
-        maxHp: data.stats[0].base_stat * 3, // Multipliquei por 3 para a batalha durar mais
+        maxHp: data.stats[0].base_stat * 3,
         currentHp: data.stats[0].base_stat * 3,
         attack: data.stats[1].base_stat,
         defense: data.stats[2].base_stat,
-        moves: data.moves.slice(0, 4).map((m) => m.move), // Pegar apenas 4 ataques
+        moves: data.moves.slice(0, 4).map((m) => m.move),
     };
 }
 
-// Atualizar o HTML com os dados
+// Renderizar interface de batalha: mostrar Pokémon, HP e botões de ataque
 function renderGame() {
-    // Jogador
     document.getElementById("player-name").innerText = player.name;
-    document.getElementById("player-img").src = player.sprite; // Nota: para jogador idealmente usamos back_default
+    document.getElementById("player-img").src = player.sprite;
     updateHealthUI("player", player);
 
-    // Inimigo
     document.getElementById("enemy-name").innerText = enemy.name;
     document.getElementById("enemy-img").src = enemy.sprite;
     updateHealthUI("enemy", enemy);
 
-    // Criar Botões de Ataque
+    // Criar botões para cada movimento disponível
     const movesContainer = document.getElementById("moves-container");
-    movesContainer.innerHTML = ""; // Limpar botões antigos
+    movesContainer.innerHTML = "";
 
     player.moves.forEach((move) => {
         const btn = document.createElement("button");
@@ -62,4 +99,5 @@ function renderGame() {
         movesContainer.appendChild(btn);
     });
 }
-initGame();
+
+document.addEventListener('DOMContentLoaded', showPokemonSelection);

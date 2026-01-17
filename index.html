@@ -9,12 +9,24 @@
 </head>
 
 <body>
-    <div class="main-cont">
-        <h1>Bem-vindo ao PokeBattle Simulator</h1>
-        <h2>Para começar a jogar, registre-se ou faça login.</h2>
+    <!-- Área para utilizador logado -->
+    <div id="logged-area" class="logged-area" style="display: none;">
+        <div class="user-header">
+            <span id="logged-username">Utilizador</span>
+            <button class="logout-btn" onclick="logoutFromMenu()">Logout</button>
+        </div>
     </div>
 
-    <button id="auth">Autenticação</button>
+    <div class="main-cont">
+        <h1>Bem-vindo ao PokeBattle Simulator</h1>
+        <h2 id="welcome-text">Para começar a jogar, registre-se ou faça login.</h2>
+    </div>
+
+    <!-- Botões de ação -->
+    <div class="button-container">
+        <button id="auth" class="main-btn">Autenticação</button>
+        <button id="play-btn" class="main-btn play-btn" style="display: none;" onclick="goToGame()">Jogar</button>
+    </div>
 
     <div id="auth-modal" class="modal">
         
@@ -70,6 +82,7 @@
     <script src="/scripts/modal.js"></script>
     <script src="/scripts/login.js"></script>
     <script src="/scripts/register.js"></script>
+    <script src="/scripts/menu.js"></script>
 
 </body>
 </html>

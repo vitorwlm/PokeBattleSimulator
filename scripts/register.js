@@ -12,11 +12,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const score = 0;
 
             try {
+                // Verificar se email/username já existem na base de dados
                 const checkResponse = await fetch(MOCK_API_URL);
                 if (!checkResponse.ok) throw new Error("Erro ao verificar utilizadores");
                 
                 const users = await checkResponse.json();
-
                 const userExists = users.find(
                     (u) => u.username === username || u.email === email
                 );
@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     return;
                 }
 
+                // Enviar novo utilizador para a API
                 const createResponse = await fetch(MOCK_API_URL, {
                     method: "POST",
                     headers: {
