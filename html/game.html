@@ -10,7 +10,24 @@
 
 <body>
 
-  <div class="main-container">
+  <!-- Barra de Sessão do Utilizador -->
+  <div class="session-bar">
+    <span id="user-info">Utilizador</span>
+    <button id="logout-btn" onclick="logout()">Logout</button>
+  </div>
+
+  <!-- Secção de Seleção de Pokémon -->
+  <div id="pokemon-selection" class="selection-container">
+    <h2>Escolhe o teu Pokémon</h2>
+    <div class="search-container">
+      <input type="text" id="pokemon-search" placeholder="Pesquisa pelo nome..." class="pokemon-search" />
+    </div>
+    <div id="pokemon-list" class="pokemon-grid">
+      <!-- Será preenchido dinamicamente -->
+    </div>
+  </div>
+
+  <div class="main-container" id="main-container" style="display: none;">
 
     <div class="battle-arena">
 
@@ -36,7 +53,7 @@
         <p id="player-hp-text">HP: 0/0</p>
 
         <div id="moves-container" class="moves-box">
-        </div>
+          </div>
       </div>
 
     </div>
@@ -48,6 +65,7 @@
   <a href="/index.html" class="back-link">Voltar ao Menu</a>
 
   <script src="/scripts/config.js"></script>
+  <script src="/scripts/session.js"></script>
   <script src="/scripts/battle.js"></script>
   <script src="/scripts/setup.js"></script>
 </body>
