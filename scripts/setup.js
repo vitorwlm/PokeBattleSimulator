@@ -1,5 +1,4 @@
-const MOCK_API_URL = "https://69658367f6de16bde44a811e.mockapi.io/pks/Players";
-const POKE_API_URL = "https://pokeapi.co/api/v2/pokemon/";
+
 
 let player = {};
 let enemy = {};
@@ -8,12 +7,12 @@ let enemy = {};
 async function initGame() {
     // Carregar Jogador (Ex: Pikachu) e Inimigo Aleatório
     const randomId = Math.floor(Math.random() * 150) + 1;
-    const randomId2 = Math.floor(Math.random() * 150) + 1;
+    const playerPokemonId = 25; // Pikachu
 
     // Promessas paralelas para ser mais rápido
     const [playerData, enemyData] = await Promise.all([
-        fetchPokemon(randomId), // Podes mudar o pokemon do jogador aqui
-        fetchPokemon(randomId2),
+        fetchPokemon(playerPokemonId), // Podes mudar o pokemon do jogador aqui
+        fetchPokemon(randomId),
     ]);
 
     player = playerData;
