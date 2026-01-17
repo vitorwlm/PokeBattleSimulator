@@ -1,0 +1,149 @@
+DICIONÁRIO DE FUNÇÕES E LÓGICA DO PROJETO
+=========================================
+
+📂 scripts/setup.js
+-------------------
+Responsável pela seleção da equipa e preparação antes da batalha.
+
+  • showPokemonSelection()
+    Descrição: Carrega a lista inicial de 151 Pokémons da API. Cria um objeto simplificado (apenas nome e URL) para ser mais rápido e chama displayPokemonGrid.
+    Conceitos: fetch, async/await, map
+
+  • displayPokemonGrid()
+    Descrição: Limpa o HTML da grelha e cria os "cartões" visuais para cada Pokémon na lista FILTERED_POKEMON. Adiciona a classe .selected se o Pokémon já estiver na equipa.
+    Conceitos: DOM Manipulation, createElement, classList
+
+  • filterPokemonByName(searchTerm)
+    Descrição: Filtra a lista global de Pokémons com base no texto que escreves na barra de pesquisa e atualiza a grelha.
+    Conceitos: filter, includes, toLowerCase
+
+  • selectPokemon(pokemonId)
+    Descrição: Gere a lógica de clique num Pokémon: se já existe, remove; se não existe e há espaço, adiciona à equipa.
+    Conceitos: push, splice, indexOf
+
+  • updateTeamUI()
+    Descrição: Atualiza as 3 bolinhas no topo da seleção para mostrar quem já escolheste. Mostra/esconde o botão "INICIAR BATALHA".
+    Conceitos: DOM, classList.remove('hidden')
+
+  • startTeamBattle()
+    Descrição: Guarda a equipa escolhida no localStorage, esconde a div de seleção e mostra a div da arena. Chama o initGame.
+    Conceitos: localStorage, JSON.stringify, style.display
+
+  • initGame()
+    Descrição: O "cérebro" do arranque. Carrega os dados detalhados (HP, Ataque, Sprites) da tua equipa e gera uma equipa inimiga aleatória. Usa Promise.all para ser rápido.
+    Conceitos: Promise.all, Math.random
+
+  • fetchPokemon(idOrName)
+    Descrição: Função auxiliar que vai à PokéAPI buscar os detalhes completos de um único Pokémon e formata os dados para o nosso jogo.
+    Conceitos: fetch, Object structure
+
+
+📂 scripts/battle.js
+--------------------
+O motor do jogo. Controla turnos, vida e lógica de combate.
+
+  • startBattleLogic(pTeam, eTeam)
+    Descrição: Recebe as equipas carregadas e define as variáveis globais (player, enemy, playerIndex). Prepara o terreno para a luta.
+    Conceitos: Global Variables, Initialization
+
+  • renderGame()
+    Descrição: Atualiza toda a interface visual da arena (Imagens, Nomes, Barras de Vida) com os dados atuais dos Pokémons ativos.
+    Conceitos: innerText, src
+
+  • renderBattleMenu()
+    Descrição: Cria os botões do menu principal: "Batalhar", "Trocar", "Desistir".
+    Conceitos: Dynamic HTML
+
+  • handleAttack(move)
+    Descrição: Executa um turno de ataque do jogador. Calcula dano, anima, verifica se o inimigo desmaiou e, se não, ageda o contra-ataque.
+    Conceitos: Game Loop, Logic Flow
+
+  • executeEnemyTurn()
+    Descrição: A IA do inimigo. Ataca o jogador, verifica se o jogador perdeu e decide se o jogo acaba ou continua.
+    Conceitos: AI Logic
+
+  • calculateDamage(attacker, defender)
+    Descrição: A matemática da batalha. Usa a tabela de tipos (TYPE_CHART) para ver se é "Super Efetivo" e aplica multiplicadores.
+    Conceitos: Math, Object Lookup
+
+  • performSwitch(newIndex)
+    Descrição: Troca o Pokémon atual do jogador por outro da equipa. Isto gasta o turno, por isso o inimigo ataca logo a seguir.
+    Conceitos: Array Indexing
+
+  • updateHealthUI(type, pokemon)
+    Descrição: Atualiza a largura da barra colorida de vida (HP) e muda a cor para vermelho se estiver baixa.
+    Conceitos: CSS width %, Style
+
+  • animateDamage(target)
+    Descrição: Adiciona temporariamente uma classe CSS (shake-animation) para fazer a imagem tremer quando recebe dano.
+    Conceitos: CSS Animation, setTimeout
+
+
+📂 scripts/pokedex.js
+---------------------
+Enciclopédia de consulta.
+
+  • initPokedex()
+    Descrição: Carrega a lista de nomes/URLs da API (tal como no setup) e configura a barra de pesquisa.
+    Conceitos: fetch, EventListeners
+
+  • renderGrid(list)
+    Descrição: Desenha os cartões na Pokédex. Note-se que aqui usamos loading="lazy" nas imagens para performance.
+    Conceitos: Performance
+
+  • loadAndShowDetails(partialPokemon)
+    Descrição: Chamada quando clicas num Pokémon. Só AQUI é que fazemos o fetch pesado dos detalhes e descrição para mostrar no Modal.
+    Conceitos: Lazy Loading, Modal
+
+
+📂 scripts/hallOfFame.js
+------------------------
+Gestão de pontuações e API de utilizadores.
+
+  • updateScore(pointsToAdd)
+    Descrição: Lê o utilizador atual, soma/subtrai pontos e envia um pedido PUT para a MockAPI para atualizar a base de dados.
+    Conceitos: HTTP PUT, CRUD
+
+  • loadRanking()
+    Descrição: Vai buscar todos os utilizadores à MockAPI, ordena-os por pontuação (sort) e desenha o Top 10 com medalhas.
+    Conceitos: Array.sort, Array.slice
+
+
+📂 scripts/auth/*.js
+--------------------
+Segurança e Sessão.
+
+  • checkSession()
+    Descrição: Verifica se existe um currentUser no localStorage. Se não existir, expulsa o utilizador para o index.html.
+    Conceitos: Security, Redirect
+
+  • logout()
+    Descrição: Apaga os dados do localStorage e redireciona para o início.
+    Conceitos: localStorage.removeItem
+
+  • (Event Listener no Login)
+    Descrição: Valida se o username e password existem na lista de utilizadores recebida da API.
+    Conceitos: Validation, Array.find
+
+  • (Event Listener no Register)
+    Descrição: Verifica duplicados e faz um POST para criar um novo utilizador na API.
+    Conceitos: HTTP POST
+
+
+📂 scripts/menu.js
+------------------
+Lógica do menu principal.
+
+  • checkMenuSession()
+    Descrição: Verifica se o utilizador está logado ao carregar a página inicial. Se sim, mostra o botão "Jogar" e a área de utilizador; se não, mostra "Autenticação".
+    Conceitos: DOM Manipulation, localStorage
+
+  • goToGame()
+    Descrição: Redireciona para a página do jogo.
+    Conceitos: window.location
+
+  • logoutFromMenu()
+    Descrição: Função de logout específica para o menu, com confirmação.
+    Conceitos: confirm, localStorage
+
+=========================================
