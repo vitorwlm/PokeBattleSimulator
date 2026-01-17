@@ -3,7 +3,12 @@ let player = {};
 let enemy = {};
 
 // Pokémon disponíveis para seleção inicial
-const POKEMON_CHOICES = [25, 4, 7, 39, 58, 54, 60, 66, 69, 74];
+
+let POKEMON_CHOICES = [];
+
+for (let i = 1; i < 1025; i++ ){
+    POKEMON_CHOICES.push(i);
+}
 
 // Carregar e mostrar grid de seleção de Pokémon
 async function showPokemonSelection() {
