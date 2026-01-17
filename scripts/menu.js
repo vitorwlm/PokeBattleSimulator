@@ -34,7 +34,7 @@ function logoutFromMenu() {
     if (confirm('Tem a certeza que quer fazer logout?')) {
         localStorage.removeItem('currentUser');
         localStorage.removeItem('selectedPokemon');
-        window.location.reload();
+        window.location.href = '/index.html'; // Garante que recarrega na página certa
     }
 }
 

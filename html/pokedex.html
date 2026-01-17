@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokédex - PokéBattle</title>
+    <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="stylesheet" href="/styles/pokedex.css">
+    <link rel="stylesheet" href="/styles/sidebar.css">
+</head>
+<body>
+
+    <!-- Menu Lateral -->
+    <nav class="sidebar">
+        <a href="/index.html" class="sidebar-link">Início</a>
+        <a href="/html/pokedex.html" class="sidebar-link">Pokédex</a>
+        <a href="/html/hallOfFame.html" class="sidebar-link">Ranking</a>
+    </nav>
+
+    <div class="pokedex-container">
+        <header class="pokedex-header">
+            <h1>Pokédex</h1>
+            <div class="search-box">
+                <input type="text" id="pokedex-search" placeholder="Pesquisar Pokémon (nome ou ID)...">
+            </div>
+        </header>
+
+        <div id="pokedex-grid" class="pokedex-grid">
+            <p class="loading-text">A carregar a base de dados da Liga...</p>
+        </div>
+
+        <div id="pokedex-modal" class="pokedex-modal">
+            <div class="modal-body">
+                <button class="close-modal">&times;</button>
+                <div id="pokemon-details"></div>
+            </div>
+        </div>
+
+        <a href="/index.html" class="back-btn">Voltar ao Menu</a>
+    </div>
+
+    <script src="/scripts/config.js"></script>
+    <script src="/scripts/pokedex.js"></script>
+</body>
+</html>

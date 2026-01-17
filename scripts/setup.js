@@ -1,27 +1,21 @@
+// [CTeSP] Configuração da Batalha
+// Gere a seleção de equipa e o carregamento inicial de dados da API.
 
-let player = {};
-let enemy = {};
+let currentTeamSelection = []; // Lista temporária para a seleção
 
 // Pokémon disponíveis para seleção inicial (Primeira Geração: 1-151)
 
-let POKEMON_CHOICES = [];
 let FILTERED_POKEMON = [];
-let ALL_POKEMON_DATA = {}; // Cache para armazenar dados dos pokémons
-
-for (let i = 1; i <= 151; i++ ){
-    POKEMON_CHOICES.push(i);
-}
-FILTERED_POKEMON = [...POKEMON_CHOICES];
+let ALL_POKEMON_LIST = []; // Lista leve apenas com nome e ID
 
 // Filtrar Pokémon por nome
 function filterPokemonByName(searchTerm) {
     const term = searchTerm.toLowerCase().trim();
     if (term === '') {
-        FILTERED_POKEMON = [...POKEMON_CHOICES];
+        FILTERED_POKEMON = [...ALL_POKEMON_LIST];
     } else {
-        FILTERED_POKEMON = POKEMON_CHOICES.filter(id => {
-            const pokemon = ALL_POKEMON_DATA[id];
-            return pokemon && pokemon.name.toLowerCase().includes(term);
+        FILTERED_POKEMON = ALL_POKEMON_LIST.filter(p => {
+            return p.name.toLowerCase().includes(term);
         });
     }
     displayPokemonGrid();
@@ -38,22 +32,20 @@ function displayPokemonGrid() {
     }
 
     // Carregar cada Pokémon e criar card clicável
-    for (const id of FILTERED_POKEMON) {
-        try {
-            const pokemon = ALL_POKEMON_DATA[id];
-            if (pokemon) {
-                const card = document.createElement('div');
-                card.className = 'pokemon-choice';
-                card.innerHTML = `
-                    <img src="${pokemon.sprite}" alt="${pokemon.name}" />
-                    <p>${pokemon.name}</p>
-                `;
-                card.onclick = () => selectPokemon(id);
-                pokemonList.appendChild(card);
-            }
-        } catch (error) {
-            console.error(`Erro ao criar card do Pokémon ${id}:`, error);
+    for (const pokemon of FILTERED_POKEMON) {
+        const card = document.createElement('div');
+        card.className = 'pokemon-choice';
+        
+        if (currentTeamSelection.includes(pokemon.id)) {
+            card.classList.add('selected');
         }
+
+        card.innerHTML = `
+            <img src="${SPRITE_BASE_URL}${pokemon.id}.png" alt="${pokemon.name}" loading="lazy" />
+            <p>${pokemon.name}</p>
+        `;
+        card.onclick = () => selectPokemon(pokemon.id);
+        pokemonList.appendChild(card);
     }
 }
 
@@ -63,52 +55,106 @@ async function showPokemonSelection() {
     pokemonList.innerHTML = '<p>Carregando Pokémons da primeira geração...</p>';
 
     try {
-        // Carregar todos os Pokémons em paralelo (mais rápido)
-        const promises = [];
-        for (let i = 1; i <= 151; i++) {
-            if (!ALL_POKEMON_DATA[i]) {
-                promises.push(
-                    fetchPokemon(i)
-                        .then(pokemon => {
-                            ALL_POKEMON_DATA[i] = pokemon;
-                        })
-                        .catch(error => {
-                            console.error(`Erro ao carregar Pokémons ${i}:`, error);
-                        })
-                );
-            }
-        }
+        // 1. Pedir lista de 151 Pokémons (1 único pedido é mais rápido)
+        // Usamos a query string '?limit=151' para limitar os resultados
+        const res = await fetch('https://pokeapi.co/api/v2/pokemon?limit=151');
+        const data = await res.json();
         
-        // Aguardar todos os carregamentos
-        await Promise.all(promises);
+        // Processar lista simples
+        ALL_POKEMON_LIST = data.results.map((p, index) => ({
+            name: p.name.toUpperCase(),
+            url: p.url,
+            id: index + 1
+        }));
+        
+        FILTERED_POKEMON = [...ALL_POKEMON_LIST];
         displayPokemonGrid();
+
     } catch (error) {
         console.error('Erro na seleção de Pokémon:', error);
         pokemonList.innerHTML = '<p style="color: red;">Erro ao carregar Pokémon</p>';
     }
 }
 
-// Guardar escolha e iniciar batalha
+// Adicionar Pokémon à equipa
 function selectPokemon(pokemonId) {
-    localStorage.setItem('selectedPokemon', pokemonId);
+    // Verificar se já está na equipa (Se sim, clica para deselecionar)
+    const index = currentTeamSelection.indexOf(pokemonId);
+    if (index !== -1) {
+        removePokemonFromTeam(index);
+        return;
+    }
+
+    if (currentTeamSelection.length >= 3) {
+        alert("A tua equipa já está cheia! Remove um Pokémon ou inicia a batalha.");
+        return;
+    }
+
+    // Adicionar ID à lista
+    currentTeamSelection.push(pokemonId);
+    updateTeamUI();
+    displayPokemonGrid(); // Atualizar visual da grelha
+}
+
+// Atualizar a visualização da equipa na seleção
+function updateTeamUI() {
+    const container = document.getElementById('team-preview');
+    const startBtn = document.getElementById('start-battle-btn');
+    
+    container.innerHTML = '';
+
+    currentTeamSelection.forEach((id, index) => {
+        const div = document.createElement('div');
+        div.className = 'w-20 h-20 bg-gray-100 rounded-full border-2 border-blue-500 flex items-center justify-center cursor-pointer hover:bg-red-100';
+        div.innerHTML = `<img src="${SPRITE_BASE_URL}${id}.png" class="w-16 h-16">`;
+        div.onclick = () => removePokemonFromTeam(index); // Clicar para remover
+        container.appendChild(div);
+    });
+
+    // Mostrar botão de iniciar se tiver 3 pokémons
+    if (currentTeamSelection.length === 3) {
+        startBtn.classList.remove('hidden');
+    } else {
+        startBtn.classList.add('hidden');
+    }
+}
+
+function removePokemonFromTeam(index) {
+    currentTeamSelection.splice(index, 1);
+    updateTeamUI();
+    displayPokemonGrid(); // Atualizar visual da grelha para desbloquear o pokemon
+}
+
+function startTeamBattle() {
+    localStorage.setItem('selectedTeam', JSON.stringify(currentTeamSelection));
     document.getElementById('pokemon-selection').style.display = 'none';
     document.getElementById('main-container').style.display = 'block';
     initGame();
 }
 
-// Inicializar batalha: carregar Pokémon do jogador (escolhido) e inimigo (aleatório)
+// Inicializar batalha: carregar dados detalhados dos Pokémons
 async function initGame() {
-    const selectedPokemon = localStorage.getItem('selectedPokemon') || 25;
-    const randomId = Math.floor(Math.random() * 151) + 1;
+    const selectedTeamIds = JSON.parse(localStorage.getItem('selectedTeam')) || [25, 4, 7];
+    
+    // Gerar equipa inimiga aleatória (3 pokémons)
+    const enemyTeamIds = [
+        Math.floor(Math.random() * 151) + 1,
+        Math.floor(Math.random() * 151) + 1,
+        Math.floor(Math.random() * 151) + 1
+    ];
 
-    // Carregar ambos os Pokémon em paralelo
-    const [playerData, enemyData] = await Promise.all([
-        fetchPokemon(selectedPokemon),
-        fetchPokemon(randomId),
-    ]);
+    // [CTeSP] Carregamento de Dados
+    // Passo 1: Carregar a minha equipa (Promise.all carrega os 3 ao mesmo tempo)
+    const playerTeamData = await Promise.all(
+        selectedTeamIds.map(id => fetchPokemon(id))
+    );
 
-    player = playerData;
-    enemy = enemyData;
+    // Passo 2: Carregar a equipa inimiga
+    const enemyTeamData = await Promise.all(
+        enemyTeamIds.map(id => fetchPokemon(id))
+    );
+
+    startBattleLogic(playerTeamData, enemyTeamData);
 
     renderGame();
     log("Batalha iniciada! A tua vez.");
@@ -127,31 +173,10 @@ async function fetchPokemon(idOrName) {
         attack: data.stats[1].base_stat,
         defense: data.stats[2].base_stat,
         moves: data.moves.slice(0, 4).map((m) => m.move),
+        types: data.types.map((t) => t.type.name), // Guardar os tipos (ex: ['fire', 'flying'])
     };
 }
 
-// Renderizar interface de batalha: mostrar Pokémon, HP e botões de ataque
-function renderGame() {
-    document.getElementById("player-name").innerText = player.name;
-    document.getElementById("player-img").src = player.sprite;
-    updateHealthUI("player", player);
-
-    document.getElementById("enemy-name").innerText = enemy.name;
-    document.getElementById("enemy-img").src = enemy.sprite;
-    updateHealthUI("enemy", enemy);
-
-    // Criar botões para cada movimento disponível
-    const movesContainer = document.getElementById("moves-container");
-    movesContainer.innerHTML = "";
-
-    player.moves.forEach((move) => {
-        const btn = document.createElement("button");
-        btn.innerText = move.name;
-        btn.onclick = () => handleAttack(move);
-        btn.className = "move-btn";
-        movesContainer.appendChild(btn);
-    });
-}
 
 document.addEventListener('DOMContentLoaded', () => {
     showPokemonSelection();

@@ -7,11 +7,13 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(135deg, #f5f5f5 0%, #dcdcdc 100%);
     height: 100vh;
+    /* [CTeSP] Flexbox para centrar conteúdo vertical e horizontalmente */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
+    padding-left: 200px;
 }
 
 /* Área de Utilizador Logado */
@@ -227,6 +229,7 @@ form button {
 /* =========================================
    5. RESPONSIVIDADE (Mobile)
    ========================================= */
+/* [CTeSP] Media Query: Aplica estilos apenas se o ecrã for menor que 700px */
 @media (max-width: 700px) {
     .logged-area {
         position: relative;
@@ -313,4 +316,65 @@ form button {
     .user-header {
         font-size: 0.85rem;
     }
+}
+
+/* =========================================
+   6. HALL OF FAME (Ranking Styles)
+   ========================================= */
+.ranking-container-page {
+    width: 90%;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.ranking-list {
+    list-style: none;
+    padding: 10px;
+    background: #2c3e50;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    border: 2px solid #34495e;
+    text-align: left; /* Reset do text-align center do body */
+}
+
+.ranking-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    margin-bottom: 5px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    color: #ecf0f1;
+    font-weight: bold;
+    transition: transform 0.2s;
+}
+
+.ranking-item:hover {
+    transform: scale(1.02);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.rank-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.rank-score {
+    color: #f1c40f;
+    font-family: monospace;
+    font-size: 1.1rem;
+}
+
+.rank-gold {
+    border-left: 4px solid #ffd700;
+    background: linear-gradient(90deg, rgba(255, 215, 0, 0.1), transparent);
+}
+.rank-silver {
+    border-left: 4px solid #c0c0c0;
+}
+.rank-bronze {
+    border-left: 4px solid #cd7f32;
 }

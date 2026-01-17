@@ -1,98 +1,12 @@
-* {
-    margin: 0 auto;
-    padding: 0 auto;
-}
-
-
-
-body {
-    font-family: 'Verdana', sans-serif;
-    background-color: #E0E0DA;
-}
-
-.grid {
-    width: 100%;
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    gap: 20px;
-    padding-left: 20px;
-    padding-right: 20px;
-    height: 100%;
-}
-
-.main-container {
-    width: 100%;
-    max-width: 1200px;
-    height: 1000px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.battle-arena {
-    background-color: #4caf50;
-}
-
-.menu {
-    width: 15%;
-    max-width: 150px;
-    background-color: #ffcb05;
-}
-
-.pokemon-card {
-    width: 40%;
-}
-
-img {
-    width: 150px;
-    height: 150px;
-}
-
-/* Barra de Vida */
-.hp-container {
-    width: 100%;
-    background-color: #ddd;
-    height: 20px;
-    border-radius: 10px;
-    margin: 10px 0;
-    overflow: hidden;
-}
-
-.hp-fill {
-    height: 100%;
-    background-color: #4caf50;
-    /* Verde */
-    width: 100%;
-    /* Começa cheio */
-    transition: width 0.5s;
-}
-
-/* Botões e Logs */
-.moves-box {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 5px;
-    margin-top: 10px;
-}
-
-button {
-    padding: 10px;
-    cursor: pointer;
-    background-color: #ffcb05;
-    border: none;
-    border-radius: 5px;
-    font-weight: bold;
-}
-
-button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-}
-
-.log-box {
-    margin-top: 20px;
-    padding: 10px;
-    background: #333;
-    color: white;
-    border-radius: 5px;
-    min-height: 40px;
+/* Variáveis Globais - Importar este ficheiro ou copiar para o topo dos outros */
+:root {
+    --poke-red: #FF0000;
+    --poke-red-dark: #CC0000;
+    --poke-blue: #3B4CCA;
+    --poke-blue-dark: #2a3b93;
+    --poke-yellow: #FFDE00;
+    --poke-yellow-dark: #B3A125;
+    --slate-50: #f8fafc;
+    --gray-200: #e5e7eb;
+    --text-main: #1f2937;
 }
