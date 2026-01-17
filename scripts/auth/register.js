@@ -1,3 +1,6 @@
+// [CTeSP] Módulo de Registo
+// Cria novos utilizadores na API (POST) após validar duplicados.
+
 document.addEventListener('DOMContentLoaded', () => {
 
     const registerForm = document.getElementById("register-form");
@@ -12,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const score = 0;
 
             try {
-                // Verificar se email/username já existem na base de dados
+                // 1. Verificar se utilizador já existe (GET)
                 const checkResponse = await fetch(MOCK_API_URL);
                 if (!checkResponse.ok) throw new Error("Erro ao verificar utilizadores");
                 
@@ -26,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     return;
                 }
 
-                // Enviar novo utilizador para a API
+                // 2. Criar novo utilizador (POST)
                 const createResponse = await fetch(MOCK_API_URL, {
                     method: "POST",
                     headers: {
@@ -41,6 +44,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 if (createResponse.ok) {
+                    // Obter o utilizador criado (com ID gerado) e iniciar sessão automaticamente
+                    const newUser = await createResponse.json();
+                    localStorage.setItem('currentUser', JSON.stringify(newUser));
                     alert("Registado com sucesso!");
                     window.location.href = "/html/game.html";
                 } else {

@@ -1,26 +1,28 @@
 /* Reset Básico */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f0f0f0;
+    background-color: var(--slate-50);
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: 0;
-    padding: 20px;
+    padding: 20px; /* O padding da sidebar é gerido no sidebar.css */
+    color: var(--text-main);
 }
 
 /* Barra de Sessão */
 .session-bar {
     width: 100%;
-    background-color: #2196f3;
-    color: white;
+    background-color: white;
+    color: var(--text-main);
     padding: 12px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-radius: 8px;
+    border-radius: 50px;
+    border: 2px solid var(--poke-blue);
     margin-bottom: 20px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     font-weight: bold;
 }
 
@@ -29,19 +31,19 @@ body {
 }
 
 #logout-btn {
-    background-color: #d32f2f;
+    background-color: var(--poke-red);
     color: white;
     border: none;
     padding: 8px 16px;
-    border-radius: 5px;
+    border-radius: 50px;
     cursor: pointer;
     font-weight: bold;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
 }
 
 #logout-btn:hover {
-    background-color: #b71c1c;
-    transform: scale(1.05);
+    background-color: var(--poke-red-dark);
+    transform: scale(1.02);
 }
 
 /* Secção de Seleção de Pokémon */
@@ -54,8 +56,8 @@ body {
     max-width: 1000px;
     background: white;
     padding: 40px 20px;
-    border-radius: 15px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 24px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
 .selection-container h2 {
@@ -63,6 +65,15 @@ body {
     color: #333;
     margin-bottom: 30px;
     text-align: center;
+}
+
+#team-preview {
+    position: sticky;
+    top: 0;
+    background-color: rgba(255, 255, 255, 0.95);
+    z-index: 50;
+    padding: 10px 0;
+    border-bottom: 2px solid var(--gray-200);
 }
 
 .search-container {
@@ -77,16 +88,16 @@ body {
     width: 100%;
     padding: 12px 16px;
     font-size: 1rem;
-    border: 2px solid #667eea;
-    border-radius: 8px;
+    border: 2px solid var(--gray-200);
+    border-radius: 16px;
     outline: none;
     transition: all 0.3s ease;
     box-sizing: border-box;
 }
 
 .pokemon-search:focus {
-    border-color: #764ba2;
-    box-shadow: 0 0 8px rgba(102, 126, 234, 0.3);
+    border-color: var(--poke-blue);
+    box-shadow: 0 0 0 3px rgba(59, 76, 202, 0.1);
 }
 
 .pokemon-search::placeholder {
@@ -94,6 +105,7 @@ body {
 }
 
 .pokemon-grid {
+    /* [CTeSP] Grid Layout: Cria colunas automáticas que se ajustam ao espaço */
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
     gap: 20px;
@@ -102,18 +114,27 @@ body {
 }
 
 .pokemon-choice {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border: 2px solid #333;
-    border-radius: 10px;
+    background: white;
+    border: 2px solid var(--gray-200);
+    border-radius: 16px;
     padding: 15px;
     text-align: center;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
 }
 
 .pokemon-choice:hover {
-    transform: scale(1.1);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    border-color: var(--poke-blue);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.pokemon-choice.selected {
+    opacity: 0.5;
+    background-color: var(--gray-200);
+    border-color: var(--poke-blue);
+    cursor: not-allowed;
+    pointer-events: none; /* Impede clicar novamente */
 }
 
 .pokemon-choice img {
@@ -124,7 +145,7 @@ body {
 }
 
 .pokemon-choice p {
-    color: white;
+    color: var(--text-main);
     font-weight: bold;
     margin: 0;
     font-size: 0.9rem;
@@ -135,8 +156,8 @@ body {
     width: 100%;
     background: white;
     padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 24px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
 /* Arena de Batalha */
@@ -149,17 +170,36 @@ body {
     gap: 20px;
 }
 
+/* Estilo do VS (Círculo) */
 .vs {
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: bold;
-    color: #d32f2f;
+    color: var(--poke-red);
     font-style: italic;
+    background: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    z-index: 2;
 }
 
 /* Cartas de Pokémon */
 .pokemon-card {
     text-align: center;
-    width: 200px;
+    width: 220px;
+    background: white;
+    padding: 20px;
+    border-radius: 24px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.pokemon-card:hover {
+    transform: translateY(-5px);
 }
 
 .pokemon-card img {
@@ -174,21 +214,22 @@ body {
     width: 100%;
     height: 20px;
     background-color: #e0e0e0;
-    border-radius: 10px;
+    border-radius: 20px;
     overflow: hidden;
-    border: 1px solid #ccc;
-    margin: 5px 0;
+    border: 1px solid #ddd;
+    margin: 10px 0;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
 }
 
 .hp-fill {
     height: 100%;
     width: 100%;
-    background-color: #4caf50;
+    background: #4caf50;
     transition: width 0.5s ease, background-color 0.3s;
 }
 
 .hp-fill.low {
-    background-color: #f44336;
+    background: linear-gradient(90deg, #f44336, #e57373);
 }
 
 /* Caixa de Ataques */
@@ -202,15 +243,22 @@ body {
 .moves-box button {
     padding: 8px;
     cursor: pointer;
-    background-color: #2196f3;
+    background-color: var(--poke-blue);
     color: white;
     border: none;
-    border-radius: 5px;
-    transition: all 0.3s ease;
+    border-radius: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    transition: all 0.1s ease;
+    box-shadow: 0 4px 0 0 var(--poke-blue-dark);
 }
 
 .moves-box button:hover {
-    background-color: #1976d2;
+    background-color: #4c5fd5;
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 0 var(--poke-blue-dark);
+    color: white;
 }
 
 .moves-box button:disabled {
@@ -223,23 +271,95 @@ body {
     background-color: #333;
     color: #fff;
     padding: 10px;
-    border-radius: 5px;
+    border-radius: 12px;
     min-height: 50px;
-    border: 2px solid #000;
+    border: none;
     font-family: monospace;
     text-align: center;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
 }
 
-.back-link {
+/* Botão Voltar */
+.back-link-btn {
     margin-top: 20px;
+    display: inline-block;
+    padding: 10px 25px;
+    background-color: white;
+    color: var(--text-main);
+    border: 2px solid var(--gray-200);
+    border-radius: 16px;
     text-decoration: none;
-    color: #2196f3;
     font-weight: bold;
-    transition: all 0.3s ease;
+    transition: all 0.1s ease;
+    box-shadow: 0 4px 0 0 var(--gray-200);
 }
 
-.back-link:hover {
-    color: #1976d2;
+.back-link-btn:hover {
+    background-color: #f9fafb;
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 0 var(--gray-200);
+    color: var(--poke-red);
+}
+
+/* Ranking List */
+.ranking-list {
+    list-style: none;
+    padding: 10px;
+    background: #2c3e50; /* Fundo escuro estilo menu de jogo */
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    max-width: 400px;
+    margin: 10px auto;
+    border: 2px solid #34495e;
+}
+
+.ranking-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    margin-bottom: 5px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    color: #ecf0f1;
+    font-weight: bold;
+    transition: transform 0.2s;
+}
+
+.ranking-item:hover {
+    transform: scale(1.02);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.rank-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.rank-name {
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.rank-score {
+    color: var(--poke-yellow); /* Amarelo Pokémon */
+    font-family: monospace;
+    font-size: 1.1rem;
+}
+
+/* Cores Especiais para Top 3 */
+.rank-gold {
+    border-left: 4px solid var(--poke-yellow);
+    background: linear-gradient(90deg, rgba(255, 215, 0, 0.1), transparent);
+}
+.rank-silver {
+    border-left: 4px solid #c0c0c0;
+}
+.rank-bronze {
+    border-left: 4px solid #cd7f32;
 }
 
 /* Responsividade para Tablets */
@@ -408,4 +528,16 @@ body {
     .vs {
         font-size: 1.2rem;
     }
+}
+
+/* Animação de Dano (Shake) */
+.shake-animation {
+  animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+@keyframes shake {
+  10%, 90% { transform: translate3d(-1px, 0, 0); }
+  20%, 80% { transform: translate3d(2px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+  40%, 60% { transform: translate3d(4px, 0, 0); }
 }
