@@ -60,7 +60,7 @@ function displayPokemonGrid() {
 // Carregar e mostrar grid de seleção de Pokémon
 async function showPokemonSelection() {
     const pokemonList = document.getElementById('pokemon-list');
-    pokemonList.innerHTML = '<p>Carregando Pokémon da primeira geração...</p>';
+    pokemonList.innerHTML = '<p>Carregando Pokémons da primeira geração...</p>';
 
     try {
         // Carregar todos os Pokémons em paralelo (mais rápido)
@@ -73,7 +73,7 @@ async function showPokemonSelection() {
                             ALL_POKEMON_DATA[i] = pokemon;
                         })
                         .catch(error => {
-                            console.error(`Erro ao carregar Pokémon ${i}:`, error);
+                            console.error(`Erro ao carregar Pokémons ${i}:`, error);
                         })
                 );
             }
@@ -153,14 +153,14 @@ function renderGame() {
     });
 }
 
-document.addEventListener('DOMContentLoaded', showPokemonSelection);
-
-// Event listener para a barra de pesquisa
-setTimeout(() => {
+document.addEventListener('DOMContentLoaded', () => {
+    showPokemonSelection();
+    
+    // Configurar a barra de pesquisa de forma segura
     const searchInput = document.getElementById('pokemon-search');
     if (searchInput) {
         searchInput.addEventListener('input', (e) => {
             filterPokemonByName(e.target.value);
         });
     }
-}, 100);
+});

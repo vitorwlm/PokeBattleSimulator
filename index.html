@@ -5,16 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/styles/index.css">
+    <script src="https://cdn.tailwindcss.com"></script>
     <title>PokeBattle Simulator</title>
 </head>
 
 <body>
     <!-- Área para utilizador logado -->
-    <div id="logged-area" class="logged-area" style="display: none;">
-        <div class="user-header">
+    <div id="logged-area" class="logged-area user-header" style="display: none;">
             <span id="logged-username">Utilizador</span>
             <button class="logout-btn" onclick="logoutFromMenu()">Logout</button>
-        </div>
     </div>
 
     <div class="main-cont">
@@ -77,12 +76,12 @@
         </div>
 
     </div>
-
-    <script src="/scripts/config.js"></script>
-    <script src="/scripts/modal.js"></script>
-    <script src="/scripts/login.js"></script>
-    <script src="/scripts/register.js"></script>
-    <script src="/scripts/menu.js"></script>
+<script src="/scripts/config.js"></script>
+<script src="/scripts/modal.js"></script>
+<script src="/scripts/auth/login.js"></script>
+<script src="/scripts/auth/register.js"></script>
+<script src="/scripts/menu.js"></script>
+    
 
 </body>
 </html>

@@ -1,3 +1,7 @@
+//Aqui é tratado o login do utilizador, verificando as credenciais com a MockAPI e guardando a sessão no localStorage
+
+
+
 document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.getElementById('login-form');
 
@@ -9,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const password = document.getElementById('login-password').value;
 
             try {
-                // Buscar todos os utilizadores da MockAPI
+                // Pesquisar todos os utilizadores da MockAPI
                 const response = await fetch(MOCK_API_URL);
                 const users = await response.json();
                 

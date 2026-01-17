@@ -15,6 +15,7 @@ async function handleAttack(move) {
     // Verificar vitória
     if (enemy.currentHp === 0) {
         log("🏆 Venceste a batalha!");
+        saveWinner();
         return;
     }
 

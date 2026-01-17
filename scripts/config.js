@@ -1,3 +1,4 @@
-// APIs globais - MockAPI para autenticação e PokéAPI para dados dos Pokémon
+// Definição dos endpoints globais para a base de dados (MockAPI) e dados de Pokémon (PokéAPI)
 const MOCK_API_URL = "https://69658367f6de16bde44a811e.mockapi.io/pks/Players";
+const MOCK_API_URL_HALL = "https://69658367f6de16bde44a811e.mockapi.io/pks/hallOfFame";
 const POKE_API_URL = "https://pokeapi.co/api/v2/pokemon/";

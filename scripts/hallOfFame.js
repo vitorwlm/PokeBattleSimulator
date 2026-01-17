@@ -1,40 +1,69 @@
 // --- RANKING (MOCK API) ---
 
 async function saveWinner() {
-    const name = prompt("Ganhaste! Digita o teu nome para o Ranking:");
-    if (!name) return;
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    
+    // Verificação de segurança: se não houver user ou ID, não podemos gravar o ranking corretamente
+    if (!currentUser || !currentUser.id) {
+        console.error("Erro: Utilizador não autenticado ou ID em falta.");
+        return;
+    }
+
+    // Incrementamos o score (ex: +1 ponto por vitória)
+    const newScore = (Number(currentUser.score) || 0) + 1;
 
     const body = {
-        name: name,
-        pokemon: player.name,
-        date: new Date().toLocaleDateString()
+        PlayerId: currentUser.id, // Garante que o ID do jogador é enviado
+        username: currentUser.username,
+        score: newScore
     };
 
-    await fetch("https://69652f8ee8ce952ce1f47235.mockapi.io/winner", {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-    });
+    try {
+        // 1. Gravar a entrada no Hall of Fame
+        await fetch(MOCK_API_URL_HALL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        });
 
-    alert("Guardado no Ranking!");
-    loadRanking(); // Atualiza a lista
+        // 2. Atualizar o score total do jogador na tabela de Players
+        await fetch(`${MOCK_API_URL}/${currentUser.id}`, { 
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ ...currentUser, score: newScore })
+        });
+
+        // 3. Atualizar a sessão local para refletir o novo score
+        currentUser.score = newScore;
+        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+
+        if (typeof log === "function") log("🏅 Vitória registada no Hall of Fame!");
+        loadRanking();
+    } catch (error) {
+        console.error("Erro ao salvar no ranking:", error);
+    }
 }
 
 async function loadRanking() {
     try {
-        const res = await fetch("https://69652f8ee8ce952ce1f47235.mockapi.io/winner");
+        const res = await fetch(MOCK_API_URL_HALL);
         const data = await res.json();
 
         const list = document.getElementById('ranking-list');
+        if (!list) return;
+
         list.innerHTML = '';
 
-        // Mostrar os últimos 5 vencedores (invertendo o array)
-        data.slice(-5).reverse().forEach(winner => {
-            const li = document.createElement('li');
-            li.innerText = `${winner.date} - ${winner.name} (com ${winner.pokemon})`;
-            list.appendChild(li);
-        });
+        // Ordenar por score (maior para menor) e mostrar os 5 melhores
+        data.sort((a, b) => (Number(b.score) || 0) - (Number(a.score) || 0))
+            .slice(0, 5)
+            .forEach(entry => {
+                const li = document.createElement('li');
+                // Se o username for nulo por algum motivo, mostra "Anónimo"
+                li.innerText = `${entry.username} - Pontuação: ${entry.score}`;
+                list.appendChild(li);
+            });
     } catch (e) {
-        console.log("Erro ao carregar ranking (Verifica o URL da API)");
+        console.log("Erro ao carregar ranking");
     }
 }
