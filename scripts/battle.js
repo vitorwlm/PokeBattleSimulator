@@ -10,6 +10,8 @@ async function handleAttack(move) {
     updateHealthUI('enemy', enemy);
     log(`${player.name} usou ${move.name} e causou ${damage} dano!`);
 
+
+    
     // Verificar vitória
     if (enemy.currentHp === 0) {
         log("🏆 Venceste a batalha!");
