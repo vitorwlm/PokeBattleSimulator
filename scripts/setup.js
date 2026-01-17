@@ -2,26 +2,46 @@
 let player = {};
 let enemy = {};
 
-// Pokémon disponíveis para seleção inicial
+// Pokémon disponíveis para seleção inicial (Primeira Geração: 1-151)
 
 let POKEMON_CHOICES = [];
+let FILTERED_POKEMON = [];
+let ALL_POKEMON_DATA = {}; // Cache para armazenar dados dos pokémons
 
-for (let i = 1; i < 1025; i++ ){
+for (let i = 1; i <= 151; i++ ){
     POKEMON_CHOICES.push(i);
 }
+FILTERED_POKEMON = [...POKEMON_CHOICES];
 
-// Carregar e mostrar grid de seleção de Pokémon
-async function showPokemonSelection() {
+// Filtrar Pokémon por nome
+function filterPokemonByName(searchTerm) {
+    const term = searchTerm.toLowerCase().trim();
+    if (term === '') {
+        FILTERED_POKEMON = [...POKEMON_CHOICES];
+    } else {
+        FILTERED_POKEMON = POKEMON_CHOICES.filter(id => {
+            const pokemon = ALL_POKEMON_DATA[id];
+            return pokemon && pokemon.name.toLowerCase().includes(term);
+        });
+    }
+    displayPokemonGrid();
+}
+
+// Mostrar grid de Pokémons filtrados
+function displayPokemonGrid() {
     const pokemonList = document.getElementById('pokemon-list');
-    pokemonList.innerHTML = '<p>Carregando Pokémon...</p>';
+    pokemonList.innerHTML = '';
 
-    try {
-        pokemonList.innerHTML = '';
+    if (FILTERED_POKEMON.length === 0) {
+        pokemonList.innerHTML = '<p>Nenhum Pokémon encontrado</p>';
+        return;
+    }
 
-        // Carregar cada Pokémon e criar card clicável
-        for (const id of POKEMON_CHOICES) {
-            try {
-                const pokemon = await fetchPokemon(id);
+    // Carregar cada Pokémon e criar card clicável
+    for (const id of FILTERED_POKEMON) {
+        try {
+            const pokemon = ALL_POKEMON_DATA[id];
+            if (pokemon) {
                 const card = document.createElement('div');
                 card.className = 'pokemon-choice';
                 card.innerHTML = `
@@ -30,10 +50,38 @@ async function showPokemonSelection() {
                 `;
                 card.onclick = () => selectPokemon(id);
                 pokemonList.appendChild(card);
-            } catch (error) {
-                console.error(`Erro ao carregar Pokémon ${id}:`, error);
+            }
+        } catch (error) {
+            console.error(`Erro ao criar card do Pokémon ${id}:`, error);
+        }
+    }
+}
+
+// Carregar e mostrar grid de seleção de Pokémon
+async function showPokemonSelection() {
+    const pokemonList = document.getElementById('pokemon-list');
+    pokemonList.innerHTML = '<p>Carregando Pokémon da primeira geração...</p>';
+
+    try {
+        // Carregar todos os Pokémons em paralelo (mais rápido)
+        const promises = [];
+        for (let i = 1; i <= 151; i++) {
+            if (!ALL_POKEMON_DATA[i]) {
+                promises.push(
+                    fetchPokemon(i)
+                        .then(pokemon => {
+                            ALL_POKEMON_DATA[i] = pokemon;
+                        })
+                        .catch(error => {
+                            console.error(`Erro ao carregar Pokémon ${i}:`, error);
+                        })
+                );
             }
         }
+        
+        // Aguardar todos os carregamentos
+        await Promise.all(promises);
+        displayPokemonGrid();
     } catch (error) {
         console.error('Erro na seleção de Pokémon:', error);
         pokemonList.innerHTML = '<p style="color: red;">Erro ao carregar Pokémon</p>';
@@ -51,7 +99,7 @@ function selectPokemon(pokemonId) {
 // Inicializar batalha: carregar Pokémon do jogador (escolhido) e inimigo (aleatório)
 async function initGame() {
     const selectedPokemon = localStorage.getItem('selectedPokemon') || 25;
-    const randomId = Math.floor(Math.random() * 150) + 1;
+    const randomId = Math.floor(Math.random() * 151) + 1;
 
     // Carregar ambos os Pokémon em paralelo
     const [playerData, enemyData] = await Promise.all([
@@ -106,3 +154,13 @@ function renderGame() {
 }
 
 document.addEventListener('DOMContentLoaded', showPokemonSelection);
+
+// Event listener para a barra de pesquisa
+setTimeout(() => {
+    const searchInput = document.getElementById('pokemon-search');
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            filterPokemonByName(e.target.value);
+        });
+    }
+}, 100);
