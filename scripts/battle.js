@@ -21,6 +21,7 @@ function startBattleLogic(pTeam, eTeam) {
     enemy = enemyTeam[enemyIndex];
     
     updateTeamIndicators();
+    renderGame();
 }
 
 // Renderizar interface de batalha: mostrar Pokémon, HP e botões de ataque
@@ -34,9 +35,7 @@ function renderGame() {
     updateHealthUI("enemy", enemy);
 
     // Mostrar o menu de batalha
-    if (typeof renderBattleMenu === 'function') {
-        renderBattleMenu();
-    }
+    renderBattleMenu();
 }
 
 // --- SISTEMA DE MENUS DE BATALHA ---
@@ -133,8 +132,6 @@ async function handleAttack(move) {
     updateHealthUI('enemy', enemy);
     log(`${player.name} usou ${move.name} e causou ${damage} dano!`);
 
-
-    
     // Verificar vitória
     if (enemy.currentHp === 0) {
         log(`${enemy.name} desmaiou!`);
@@ -240,10 +237,10 @@ function updateTeamIndicators() {
     const eContainer = document.getElementById('enemy-team-indicator');
     
     // Jogador: 🔵 vivo, ⚫ morto
-    pContainer.innerHTML = playerTeam.map((p, i) => i < playerIndex ? '⚫' : '🔵').join('');
+    pContainer.innerHTML = playerTeam.map((p, i) => p.currentHp <= 0 ? '⚫' : '🔵').join('');
     
     // Inimigo: 🔴 vivo, ⚫ morto
-    eContainer.innerHTML = enemyTeam.map((p, i) => i < enemyIndex ? '⚫' : '🔴').join('');
+    eContainer.innerHTML = enemyTeam.map((p, i) => p.currentHp <= 0 ? '⚫' : '🔴').join('');
 }
 
 async function calculateFinalScore(isVictory) {
@@ -296,12 +293,15 @@ function calculateDamage(attacker, defender) {
 // Atualizar barra de HP na interface
 function updateHealthUI(type, pokemon) {
     const percent = (pokemon.currentHp / pokemon.maxHp) * 100;
-    document.getElementById(`${type}-hp-bar`).style.width = `${percent}%`;
+    const bar = document.getElementById(`${type}-hp-bar`);
+    bar.style.width = `${percent}%`;
     document.getElementById(`${type}-hp-text`).innerText = `${pokemon.currentHp}/${pokemon.maxHp}`;
     
     // HP baixo = barra vermelha
     if(percent < 20) {
-        document.getElementById(`${type}-hp-bar`).style.backgroundColor = 'red';
+        bar.classList.add('low');
+    } else {
+        bar.classList.remove('low');
     }
 }
 
@@ -340,33 +340,33 @@ function animateDamage(target) {
 
 // Event Listener para prevenir saída acidental da batalha
 document.addEventListener('DOMContentLoaded', () => {
-    // Selecionar links da sidebar e o botão de voltar
-    const exitLinks = document.querySelectorAll('.sidebar-link, .back-link-btn');
-    
-    exitLinks.forEach(link => {
-        link.addEventListener('click', async (e) => {
-            const battleContainer = document.getElementById('main-container');
+    // Usar delegação de eventos para detetar cliques na Navbar e outros links dinâmicos
+    document.body.addEventListener('click', async (e) => {
+        const link = e.target.closest('.sidebar-link, .main-navbar a');
+        
+        if (!link) return;
+
+        const battleContainer = document.getElementById('main-container');
+        
+        // Verificar se estamos em batalha ativa
+        // (Arena visível e ninguém morreu ainda)
+        const isBattleVisible = battleContainer && battleContainer.style.display !== 'none';
+        const isBattleOngoing = typeof player !== 'undefined' && typeof enemy !== 'undefined' && 
+                                player.currentHp > 0 && enemy.currentHp > 0;
+
+        if (isBattleVisible && isBattleOngoing) {
+            e.preventDefault(); // Bloquear navegação
             
-            // Verificar se estamos em batalha ativa
-            // (Arena visível e ninguém morreu ainda)
-            const isBattleVisible = battleContainer && battleContainer.style.display !== 'none';
-            const isBattleOngoing = typeof player !== 'undefined' && typeof enemy !== 'undefined' && 
-                                    player.currentHp > 0 && enemy.currentHp > 0;
+            const message = "⚠️ ALERTA DE BATALHA ⚠️\n\nSe saíres agora, será considerada uma desistência!\nPerderás 5 pontos no Hall of Fame.\n\nTens a certeza que queres sair?";
 
-            if (isBattleVisible && isBattleOngoing) {
-                e.preventDefault(); // Bloquear navegação
-                
-                const message = "⚠️ ALERTA DE BATALHA ⚠️\n\nSe saíres agora, será considerada uma desistência!\nPerderás 5 pontos no Hall of Fame.\n\nTens a certeza que queres sair?";
-
-                if (confirm(message)) {
-                    // Aplicar penalização
-                    if (typeof updateScore === 'function') {
-                        await updateScore(-5);
-                    }
-                    // Prosseguir com a navegação
-                    window.location.href = link.href;
+            if (confirm(message)) {
+                // Aplicar penalização
+                if (typeof updateScore === 'function') {
+                    await updateScore(-5);
                 }
+                // Prosseguir com a navegação
+                window.location.href = link.href;
             }
-        });
+        }
     });
 });
