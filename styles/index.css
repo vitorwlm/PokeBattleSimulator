@@ -6,53 +6,13 @@ body {
     padding: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(135deg, #f5f5f5 0%, #dcdcdc 100%);
-    height: 100vh;
+    min-height: 100vh;
     /* [CTeSP] Flexbox para centrar conteúdo vertical e horizontalmente */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding-left: 200px;
-}
-
-/* Área de Utilizador Logado */
-.logged-area {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background-color: #2196f3;
-    padding: 12px 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-}
-
-.user-header {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    color: white;
-    font-weight: bold;
-}
-
-#logged-username {
-    font-size: 0.95rem;
-}
-
-.logout-btn {
-    background-color: #d32f2f;
-    color: white;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 0.85rem;
-    transition: all 0.3s ease;
-}
-
-.logout-btn:hover {
-    background-color: #b71c1c;
-    transform: scale(1.05);
 }
 
 h1 {
@@ -79,134 +39,6 @@ a {
     display: inline-block;
 }
 
-/* Container de Botões */
-.button-container {
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-    align-items: center;
-}
-
-.main-btn {
-    background-color: #3b4cca;
-    color: #ffcb05;
-    border: 2px solid #2a3b93;
-    padding: 15px 40px;
-    font-size: 1.1rem;
-    font-weight: bold;
-    border-radius: 50px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    text-transform: uppercase;
-}
-
-.main-btn:hover {
-    background-color: #ffcb05;
-    color: #3b4cca;
-    border-color: #c7a008;
-    transform: translateY(-3px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-}
-
-.play-btn {
-    background-color: #4caf50;
-    border-color: #388e3c;
-}
-
-.play-btn:hover {
-    background-color: #45a049;
-    color: white;
-}
-
-/* =========================================
-   2. BOTÕES (Estilo Pokémon)
-   ========================================= */
-button {
-    background-color: #3b4cca;
-    color: #ffcb05;
-    border: 2px solid #2a3b93;
-    padding: 15px 40px;
-    font-size: 1.1rem;
-    font-weight: bold;
-    border-radius: 50px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    text-transform: uppercase;
-}
-
-button:hover {
-    background-color: #ffcb05;
-    color: #3b4cca;
-    border-color: #c7a008;
-    transform: translateY(-3px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-}
-
-/* =========================================
-   3. O MODAL (Pop-up)
-   ========================================= */
-
-/* Fundo Escuro (Overlay) */
-.modal {
-    display: none; /* Começa escondido */
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
-    
-    /* Centralização e Alinhamento */
-    align-items: center;
-    justify-content: center;
-    gap: 20px; /* Espaço entre Login e Registo */
-    backdrop-filter: blur(3px); /* Desfoque ligeiro no fundo */
-}
-
-/* Classe que o JS ativa */
-.modal.show {
-    display: flex; 
-}
-
-/* As caixas brancas (Login e Registo) */
-#auth-login, #auth-register {
-    background-color: white;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    width: 300px;
-    text-align: left; /* Para os labels ficarem à esquerda */
-    animation: slideDown 0.3s ease-out;
-}
-
-/* Animação de entrada */
-@keyframes slideDown {
-    from { transform: translateY(-50px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
-}
-
-/* =========================================
-   4. FORMULÁRIOS (Inputs e Labels)
-   ========================================= */
-form table {
-    width: 100%;
-}
-
-form td {
-    padding: 8px 0;
-}
-
-label {
-    font-weight: bold;
-    color: #333;
-    display: block;
-    margin-bottom: 5px;
-    font-size: 0.9rem;
-}
-
 input[type="text"],
 input[type="email"],
 input[type="password"] {
@@ -217,38 +49,11 @@ input[type="password"] {
     box-sizing: border-box;
 }
 
-/* Botão específico de enviar formulário (mais pequeno que o principal) */
-form button {
-    width: 100%;
-    margin-top: 10px;
-    padding: 10px;
-    border-radius: 5px;
-    font-size: 1rem;
-}
-
 /* =========================================
    5. RESPONSIVIDADE (Mobile)
    ========================================= */
 /* [CTeSP] Media Query: Aplica estilos apenas se o ecrã for menor que 700px */
 @media (max-width: 700px) {
-    .logged-area {
-        position: relative;
-        top: 0;
-        right: 0;
-        margin-bottom: 20px;
-        width: 90%;
-        max-width: 300px;
-    }
-
-    .user-header {
-        flex-direction: column;
-        gap: 8px;
-        width: 100%;
-    }
-
-    .logout-btn {
-        width: 100%;
-    }
 
     /* Ajustes de Texto */
     h1 {
@@ -260,61 +65,15 @@ form button {
         font-size: 1rem;
         padding: 0 20px;
     }
-
-    /* Ajustes do Modal para Telemóvel */
-    .modal {
-        flex-direction: column; /* Coloca um por cima do outro */
-        padding: 20px 0;
-        overflow-y: auto; /* Permite fazer scroll se não caber no ecrã */
-    }
-    
-    #auth-login, #auth-register {
-        width: 80%;       /* Ocupa a largura quase toda */
-        margin-bottom: 20px;
-    }
-
-    /* Ajuste de Botões Gerais */
-    .button-container {
-        flex-direction: column;
-        width: 90%;
-    }
-
-    .main-btn {
-        width: 100%;
-        max-width: 300px;
-    }
 }
 
 @media (max-width: 480px) {
-    .logged-area {
-        margin-bottom: 15px;
-    }
-
     h1 {
         font-size: 1.5rem;
     }
 
     h2 {
         font-size: 0.9rem;
-    }
-
-    #auth-login, #auth-register {
-        width: 90%;
-        padding: 20px;
-    }
-
-    .main-btn {
-        padding: 12px 30px;
-        font-size: 0.95rem;
-    }
-
-    form button {
-        padding: 8px;
-        font-size: 0.9rem;
-    }
-
-    .user-header {
-        font-size: 0.85rem;
     }
 }
 

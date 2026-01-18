@@ -156,7 +156,6 @@ async function initGame() {
 
     startBattleLogic(playerTeamData, enemyTeamData);
 
-    renderGame();
     log("Batalha iniciada! A tua vez.");
 }
 

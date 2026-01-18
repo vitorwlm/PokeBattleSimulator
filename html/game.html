@@ -10,24 +10,11 @@
   <title>PokéBattle Simulator</title>
   <link rel="stylesheet" href="/styles/styles.css" />
   <link rel="stylesheet" href="/styles/battle.css" />
-  <link rel="stylesheet" href="/styles/sidebar.css" />
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/scripts/navbar.js"></script>
 </head>
 
 <body>
-
-  <!-- Menu Lateral -->
-  <nav class="sidebar">
-      <a href="/index.html" class="sidebar-link">Início</a>
-      <a href="/html/pokedex.html" class="sidebar-link">Pokédex</a>
-      <a href="/html/hallOfFame.html" class="sidebar-link">Ranking</a>
-  </nav>
-
-  <!-- Barra de Sessão do Utilizador -->
-  <div class="session-bar">
-    <span id="user-info">Utilizador</span>
-    <button id="logout-btn" onclick="logout()">Logout</button>
-  </div>
 
   <!-- Fase 1: Seleção de Equipa -->
   <!-- Secção de Seleção de Pokémon -->
@@ -41,6 +28,7 @@
     <button id="start-battle-btn" class="hidden bg-green-500 text-white font-bold py-2 px-6 rounded-full mb-4 hover:bg-green-600 transition-colors" onclick="startTeamBattle()">INICIAR BATALHA</button>
 
     <div class="search-container">
+      <label for="pokemon-search" class="sr-only">Pesquisar Pokémon pelo nome</label>
       <input type="text" id="pokemon-search" placeholder="Pesquisa pelo nome..." class="pokemon-search" />
     </div>
     
@@ -60,7 +48,7 @@
         <img id="enemy-img" src="" alt="Inimigo" />
 
         <div class="hp-container">
-          <div id="enemy-hp-bar" class="hp-fill"></div>
+          <div id="enemy-hp-bar" class="hp-fill" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" aria-label="Vida do Inimigo"></div>
         </div>
         <p id="enemy-hp-text">HP: 0/0</p>
       </div>
@@ -73,7 +61,7 @@
         <h2 id="player-name">Carregando...</h2>
 
         <div class="hp-container">
-          <div id="player-hp-bar" class="hp-fill"></div>
+          <div id="player-hp-bar" class="hp-fill" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" aria-label="Vida do Jogador"></div>
         </div>
         <p id="player-hp-text">HP: 0/0</p>
 
@@ -83,17 +71,9 @@
 
     </div>
 
-    <div id="battle-log" class="log-box">A preparar batalha...</div>
-
-    <!-- Área para o Ranking (Hall of Fame) -->
-    <div class="ranking-container" style="margin-top: 20px; text-align: center;">
-      <h3>Hall of Fame</h3>
-      <ul id="ranking-list" class="ranking-list"></ul>
-    </div>
+    <div id="battle-log" class="log-box" role="log" aria-live="polite">A preparar batalha...</div>
 
   </div>
-
-  <a href="/index.html" class="back-link-btn">Voltar ao Menu</a>
 
 <script src="/scripts/config.js"></script>
 <script src="/scripts/hallOfFame.js"></script>
