@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 // 2. Procurar utilizador no array recebido
                 // O método .find() devolve o primeiro elemento que satisfaz a condição
-                const user = users.find(u => u.username === username && u.password === password);
+                const user = users.find(u => u.username.toLowerCase() === username.toLowerCase() && u.password === password);
 
                 if (user) {
                     alert('Login bem-sucedido!');

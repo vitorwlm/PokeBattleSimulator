@@ -10,6 +10,7 @@
   <title>PokéBattle Simulator</title>
   <link rel="stylesheet" href="/styles/styles.css" />
   <link rel="stylesheet" href="/styles/battle.css" />
+  <link rel="stylesheet" href="/styles/navbar.css" />
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="/scripts/navbar.js"></script>
 </head>
@@ -22,10 +23,12 @@
     <h2>Escolhe a tua Equipa (3 Pokémons)</h2>
     
     <!-- Visualização da Equipa Selecionada -->
-    <div id="team-preview" class="flex justify-center gap-4 mb-6 min-h-[100px]">
-        <!-- Slots vazios ou preenchidos -->
+    <div id="selection-sticky-container">
+        <div id="team-preview" class="flex justify-center gap-4 min-h-[100px]">
+            <!-- Slots vazios ou preenchidos -->
+        </div>
+        <button id="start-battle-btn" class="hidden bg-green-500 text-white font-bold py-2 px-6 rounded-full mb-4 hover:bg-green-600 transition-colors" onclick="startTeamBattle()">INICIAR BATALHA</button>
     </div>
-    <button id="start-battle-btn" class="hidden bg-green-500 text-white font-bold py-2 px-6 rounded-full mb-4 hover:bg-green-600 transition-colors" onclick="startTeamBattle()">INICIAR BATALHA</button>
 
     <div class="search-container">
       <label for="pokemon-search" class="sr-only">Pesquisar Pokémon pelo nome</label>

@@ -4,7 +4,7 @@
 body {
     margin: 0;
     padding: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Segoe UI', sans-serif;
     background: linear-gradient(135deg, #f5f5f5 0%, #dcdcdc 100%);
     min-height: 100vh;
     /* [CTeSP] Flexbox para centrar conteúdo vertical e horizontalmente */
@@ -16,7 +16,7 @@ body {
 }
 
 h1 {
-    font-size: 3rem;
+    font-size: 4.5rem;
     margin-bottom: 10px;
     color: #ffcb05;
     text-shadow: 3px 3px 0px #2a75bb, -1px -1px 0 #2a75bb, 1px -1px 0 #2a75bb, -1px 1px 0 #2a75bb, 1px 1px 0 #2a75bb;
@@ -25,7 +25,7 @@ h1 {
 }
 
 h2 {
-    font-size: 1.2rem;
+    font-size: 1.6rem;
     color: #555;
     font-weight: normal;
     margin-bottom: 40px;
@@ -80,60 +80,153 @@ input[type="password"] {
 /* =========================================
    6. HALL OF FAME (Ranking Styles)
    ========================================= */
+.hall-of-fame-body {
+    justify-content: flex-start;
+    padding-top: 100px;
+}
+
+.pokedex-subtitle {
+    font-weight: bold;
+    color: #666;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
 .ranking-container-page {
-    width: 90%;
-    max-width: 500px;
-    margin: 0 auto;
+    width: 95%;
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 10px
 }
 
 .ranking-list {
     list-style: none;
-    padding: 10px;
-    background: #2c3e50;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    border: 2px solid #34495e;
-    text-align: left; /* Reset do text-align center do body */
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+    border: none;
 }
 
 .ranking-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 12px 15px;
-    margin-bottom: 5px;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 8px;
-    color: #ecf0f1;
-    font-weight: bold;
-    transition: transform 0.2s;
+    padding: 16px 24px;
+    margin-bottom: 12px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(0,0,0,0.05);
+    color: #1f2937;
+    font-size: 1.3rem;
+    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
 }
 
 .ranking-item:hover {
-    transform: scale(1.02);
-    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    color: var(--poke-blue);
+    z-index: 10;
+}
+.ranking-item:last-child {
+    margin-bottom: 0;
+}
+
+.rank-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background-color: #f1f5f9;
+    color: #64748b;
+    border-radius: 50%;
+    font-size: 0.9rem;
+    font-weight: 800;
+    margin-right: 12px;
 }
 
 .rank-left {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 16px;
 }
 
 .rank-score {
-    color: #f1c40f;
+    color: #3b4cca;
     font-family: monospace;
-    font-size: 1.1rem;
+    font-size: 1.4rem;
+    font-weight: 800;
+    background: #eff6ff;
+    padding: 8px 16px;
+    border-radius: 9999px;
+    border: 1px solid #dbeafe;
 }
 
 .rank-gold {
-    border-left: 4px solid #ffd700;
-    background: linear-gradient(90deg, rgba(255, 215, 0, 0.1), transparent);
+    border-left: 6px solid #ffd700;
+    background: linear-gradient(90deg, #fffbeb, #ffffff);
+    border: 1px solid #fcd34d;
+    font-size: 1.5rem;
 }
+.rank-gold .rank-score {
+    color: #d97706;
+    background: #fffbeb;
+    border-color: #fcd34d;
+}
+
 .rank-silver {
-    border-left: 4px solid #c0c0c0;
+    border-left: 6px solid #c0c0c0;
+    background: linear-gradient(90deg, #f8fafc, #ffffff);
+    border: 1px solid #e2e8f0;
 }
+.rank-silver .rank-score {
+    color: #475569;
+    background: #f8fafc;
+    border-color: #e2e8f0;
+}
+
 .rank-bronze {
-    border-left: 4px solid #cd7f32;
+    border-left: 6px solid #cd7f32;
+    background: linear-gradient(90deg, #fff7ed, #ffffff);
+    border: 1px solid #fdba74;
+}
+.rank-bronze .rank-score {
+    color: #ea580c;
+    background: #fff7ed;
+    border-color: #fdba74;
+}
+
+/* Estilos para as imagens da equipa no Ranking */
+.rank-team {
+    display: flex;
+    align-items: center;
+    margin-left: 15px;
+}
+
+.rank-team img {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background-color: #fff;
+    border: 2px solid #fff;
+    margin-left: -5px; /* Efeito de sobreposição */
+    object-fit: contain;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.rank-team img:hover {
+    transform: scale(1.2) translateY(-5px);
+    z-index: 10;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    border-color: var(--poke-blue);
+}
+
+.rank-team img:first-child {
+    margin-left: 0;
 }

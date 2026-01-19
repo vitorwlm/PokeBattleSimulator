@@ -12,30 +12,50 @@ async function updateScore(pointsToAdd) {
         return;
     }
 
-    // Calcular novo score
-    let newScore = (Number(currentUser.score) || 0) + pointsToAdd;
-    
-    if (newScore < 0) newScore = 0; // Evitar pontuação negativa
-
     try {
-        // Atualizar o score na tabela de Players (Fonte única, evita duplicados)
-        await fetch(`${MOCK_API_URL}/${currentUser.id}`, { 
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ ...currentUser, score: newScore })
-        });
+        // 1. Buscar o registo no Hall of Fame pelo playerId
+        const res = await fetch(`${MOCK_API_URL_HALL}?playerId=${currentUser.id}`);
+        const data = await res.json();
 
-        // Atualizar a sessão local para refletir o novo score
-        currentUser.score = newScore;
-        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+        if (data.length > 0) {
+            const hallEntry = data[0];
+            
+            // Calcular novo score usando o valor da base de dados
+            let newScore = (Number(hallEntry.score) || 0) + pointsToAdd;
+            if (newScore < 0) newScore = 0;
 
-        if (typeof log === "function") {
-            const msg = pointsToAdd > 0 
-                ? `🏅 Vitória! (+${pointsToAdd} pontos)` 
-                : `💀 Derrota... (${pointsToAdd} pontos)`;
-            log(msg);
+            // Atualizar a equipa guardada apenas em caso de vitória (> 0 pontos)
+            let teamToSave = hallEntry.pokemons;
+            if (pointsToAdd > 0) {
+                const storedTeam = localStorage.getItem('selectedTeam');
+                if (storedTeam) {
+                    teamToSave = JSON.parse(storedTeam);
+                }
+            }
+
+            // Construir objeto limpo para evitar enviar campos duplicados/nulos (ex: PlayerId vs playerId)
+            const updatedEntry = {
+                username: hallEntry.username,
+                score: newScore,
+                playerId: hallEntry.playerId, // Manter a chave correta (camelCase)
+                pokemons: teamToSave
+            };
+
+            // 2. Atualizar o registo no Hall of Fame
+            await fetch(`${MOCK_API_URL_HALL}/${hallEntry.id}`, { 
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(updatedEntry)
+            });
+
+            if (typeof log === "function") {
+                const msg = pointsToAdd > 0 
+                    ? `🏅 Vitória! (+${pointsToAdd} pontos)` 
+                    : `💀 Derrota... (${pointsToAdd} pontos)`;
+                log(msg);
+            }
+            loadRanking();
         }
-        loadRanking();
     } catch (error) {
         console.error("Erro ao atualizar score:", error);
     }
@@ -43,8 +63,8 @@ async function updateScore(pointsToAdd) {
 
 async function loadRanking() {
     try {
-        // Ler diretamente da lista de Players para garantir utilizadores únicos
-        const res = await fetch(MOCK_API_URL);
+        // Ler da tabela HallOfFame
+        const res = await fetch(MOCK_API_URL_HALL);
         const data = await res.json();
 
         const list = document.getElementById('ranking-list');
@@ -70,9 +90,19 @@ async function loadRanking() {
                 else if (rank === 2) { medal = '🥈'; specialClass = 'rank-silver'; }
                 else if (rank === 3) { medal = '🥉'; specialClass = 'rank-bronze'; }
 
+                // Gerar HTML das imagens dos pokémons (se existirem)
+                let teamHtml = '';
+                if (Array.isArray(entry.pokemons)) {
+                    teamHtml = '<div class="rank-team">';
+                    entry.pokemons.forEach(id => {
+                        teamHtml += `<img src="${SPRITE_BASE_URL}${id}.png" alt="Pkmn">`;
+                    });
+                    teamHtml += '</div>';
+                }
+
                 li.className = `ranking-item ${specialClass}`;
                 li.innerHTML = `
-                    <div class="rank-left">${medal} <span class="rank-name">${entry.username}</span></div>
+                    <div class="rank-left">${medal} <span class="rank-name">${entry.username}</span> ${teamHtml}</div>
                     <div class="rank-score">${entry.score} <small>pts</small></div>
                 `;
                 list.appendChild(li);

@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const email = document.getElementById("reg-email").value;
             const username = document.getElementById("reg-username").value;
             const password = document.getElementById("reg-password").value;
-            const score = 0;
 
             try {
                 // 1. Verificar se utilizador já existe (GET)
@@ -21,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 const users = await checkResponse.json();
                 const userExists = users.find(
-                    (u) => u.username === username || u.email === email
+                    (u) => u.username.toLowerCase() === username.toLowerCase() || u.email.toLowerCase() === email.toLowerCase()
                 );
 
                 if (userExists) {
@@ -39,13 +38,21 @@ document.addEventListener('DOMContentLoaded', () => {
                         email,
                         username,
                         password,
-                        score,
                     }),
                 });
 
                 if (createResponse.ok) {
-                    // Obter o utilizador criado (com ID gerado) e iniciar sessão automaticamente
+                    // Obter o utilizador criado (com ID gerado)
                     const newUser = await createResponse.json();
+
+                    // 3. Criar registo inicial no Hall of Fame (POST)
+                    await fetch(MOCK_API_URL_HALL, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ playerId: newUser.id, username: newUser.username, score: 0 })
+                    });
+
+                    // Iniciar sessão automaticamente
                     localStorage.setItem('currentUser', JSON.stringify(newUser));
                     alert("Registado com sucesso!");
                     window.location.href = "/html/game.html";

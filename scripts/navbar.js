@@ -1,10 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Injetar o CSS da Navbar
-    const styleLink = document.createElement('link');
-    styleLink.rel = 'stylesheet';
-    styleLink.href = '/styles/navbar.css';
-    document.head.appendChild(styleLink);
-
+    // O CSS da Navbar foi movido para o <head> dos ficheiros HTML para evitar o efeito de "flicker"
     // 2. Criar a estrutura HTML da Navbar
     const nav = document.createElement('nav');
     nav.className = 'main-navbar';
