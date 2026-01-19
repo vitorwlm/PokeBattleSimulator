@@ -1,8 +1,8 @@
-// [CTeSP] Gestão de Sessão
-// Verifica se existe um utilizador logado no LocalStorage.
-
-// Verificar se o utilizador tem sessão ativa ao entrar em game.html
-// Se não tiver, redireciona para login
+/**
+ * [GESTÃO DE SESSÃO]
+ * Protege páginas que requerem login (como o jogo).
+ * Se não houver utilizador no localStorage, redireciona para o início.
+ */
 function checkSession() {
     const currentUser = localStorage.getItem('currentUser');
     

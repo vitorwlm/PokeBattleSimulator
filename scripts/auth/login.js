@@ -1,6 +1,7 @@
-// [CTeSP] Módulo de Login
-// Trata da autenticação comparando dados do formulário com a API.
-
+/**
+ * [AUTENTICAÇÃO - LOGIN]
+ * Verifica as credenciais comparando com os dados da API.
+ */
 document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.getElementById('login-form');
 
@@ -12,26 +13,23 @@ document.addEventListener('DOMContentLoaded', () => {
             const password = document.getElementById('login-password').value;
 
             try {
-                // 1. Pedir lista de utilizadores à API (GET)
-                // 'await' espera que a resposta chegue antes de continuar
+                // 1. GET: Buscar todos os utilizadores
                 const response = await fetch(MOCK_API_URL);
                 const users = await response.json();
                 
-                // 2. Procurar utilizador no array recebido
-                // O método .find() devolve o primeiro elemento que satisfaz a condição
+                // 2. Validar: Procurar se existe algum utilizador com este user E password
+                // Usamos toLowerCase() no username para ignorar maiúsculas/minúsculas
                 const user = users.find(u => u.username.toLowerCase() === username.toLowerCase() && u.password === password);
 
                 if (user) {
                     alert('Login bem-sucedido!');
-                    // 3. Guardar sessão no navegador (LocalStorage)
-                    // JSON.stringify converte o objeto JavaScript em Texto para poder ser guardado
+                    // Guardar sessão no navegador (LocalStorage)
                     localStorage.setItem('currentUser', JSON.stringify(user));
                     
-                    // Se está em index.html, recarrega para mostrar área logada
+                    // Redirecionamento
                     if (document.getElementById('auth')) {
                         location.reload();
                     } else {
-                        // Caso contrário vai para o jogo
                         window.location.href = '/html/game.html';
                     }
                 } else {

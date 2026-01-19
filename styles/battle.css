@@ -1,4 +1,3 @@
-/* Reset Básico */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: var(--slate-50);
@@ -10,7 +9,6 @@ body {
     color: var(--text-main);
 }
 
-/* Secção de Seleção de Pokémon */
 .selection-container {
     display: flex;
     flex-direction: column;
@@ -31,6 +29,7 @@ body {
     text-align: center;
 }
 
+/* Sticky Container: Garante que o botão de iniciar não desaparece no scroll */
 #selection-sticky-container {
     position: sticky;
     top: 70px;
@@ -73,8 +72,8 @@ body {
     color: #999;
 }
 
+/* Grid Layout: Cria colunas automáticas que se ajustam ao tamanho do ecrã */
 .pokemon-grid {
-    /* [CTeSP] Grid Layout: Cria colunas automáticas que se ajustam ao espaço */
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
     gap: 20px;
@@ -103,7 +102,7 @@ body {
     background-color: var(--gray-200);
     border-color: var(--poke-blue);
     cursor: not-allowed;
-    pointer-events: none; /* Impede clicar novamente */
+    pointer-events: none;
 }
 
 .pokemon-choice img {
@@ -129,17 +128,15 @@ body {
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
-/* Arena de Batalha */
 .battle-arena {
     display: flex;
     justify-content: center;
     align-items: stretch;
     margin-bottom: 30px;
-    flex-wrap: nowrap; /* Força layout lado-a-lado em PC */
+    flex-wrap: nowrap;
     gap: 30px;
 }
 
-/* Estilo do VS (Círculo) */
 .vs {
     font-size: 1.5rem;
     font-weight: bold;
@@ -158,7 +155,6 @@ body {
     flex-shrink: 0;
 }
 
-/* Cartas de Pokémon */
 .pokemon-card {
     flex: 1;
     min-width: 280px;
@@ -205,7 +201,6 @@ body {
     letter-spacing: 1px;
 }
 
-/* Barras de Vida (HP) */
 .hp-container {
     width: 100%;
     height: 18px;
@@ -230,7 +225,6 @@ body {
     background: linear-gradient(90deg, #ef4444, #dc2626);
 }
 
-/* Caixa de Ataques */
 .moves-box {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -252,7 +246,7 @@ body {
     font-size: 0.85rem;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 4px 0 0 var(--poke-blue-dark);
-    min-height: 44px; /* Acessibilidade: Área de toque mínima */
+    min-height: 44px;
     position: relative;
     overflow: hidden;
 }
@@ -276,7 +270,6 @@ body {
     opacity: 0.7;
 }
 
-/* Log de Batalha */
 .log-box {
     background-color: #1f2937;
     color: #f3f4f6;
@@ -294,7 +287,7 @@ body {
     line-height: 1.5;
 }
 
-/* Responsividade para Tablets */
+/* Media Queries: Ajustes para Tablets e Telemóveis */
 @media (max-width: 768px) {
     .battle-arena {
         flex-wrap: wrap;
@@ -343,7 +336,6 @@ body {
     }
 }
 
-/* Responsividade para Telemóvel */
 @media (max-width: 480px) {
     body {
         padding: 10px;
@@ -430,7 +422,7 @@ body {
     }
 }
 
-/* Animação de Dano (Shake) */
+/* Animação Keyframes: Cria o efeito de tremor ao receber dano */
 .shake-animation {
   animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
 }

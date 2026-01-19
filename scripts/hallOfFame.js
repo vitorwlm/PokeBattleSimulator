@@ -1,30 +1,33 @@
-// [CTeSP] Sistema de Ranking
-// Exemplo de operações CRUD (Read e Update) na API.
+/**
+ * [SISTEMA DE PONTUAÇÃO]
+ * Gere a atualização de pontos e a visualização do ranking.
+ */
 
-// --- RANKING (MOCK API) ---
-
+// Atualiza a pontuação do jogador após uma batalha.
+// Recebe pontos positivos (vitória) ou negativos (derrota/desistência).
 async function updateScore(pointsToAdd) {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     
-    // Verificação de segurança: se não houver user ou ID, não podemos gravar o ranking corretamente
     if (!currentUser || !currentUser.id) {
         console.error("Erro: Utilizador não autenticado ou ID em falta.");
         return;
     }
 
     try {
-        // 1. Buscar o registo no Hall of Fame pelo playerId
+        // 1. GET: Buscar o registo específico deste jogador na tabela HallOfFame
+        // Usamos query string '?playerId=...' para filtrar diretamente na API
         const res = await fetch(`${MOCK_API_URL_HALL}?playerId=${currentUser.id}`);
         const data = await res.json();
 
         if (data.length > 0) {
             const hallEntry = data[0];
             
-            // Calcular novo score usando o valor da base de dados
+            // Calcular novo score garantindo que não fica negativo
             let newScore = (Number(hallEntry.score) || 0) + pointsToAdd;
             if (newScore < 0) newScore = 0;
 
-            // Atualizar a equipa guardada apenas em caso de vitória (> 0 pontos)
+            // Lógica de Persistência da Equipa:
+            // Só atualizamos a equipa guardada se o jogador GANHAR (pointsToAdd > 0).
             let teamToSave = hallEntry.pokemons;
             if (pointsToAdd > 0) {
                 const storedTeam = localStorage.getItem('selectedTeam');
@@ -33,21 +36,23 @@ async function updateScore(pointsToAdd) {
                 }
             }
 
-            // Construir objeto limpo para evitar enviar campos duplicados/nulos (ex: PlayerId vs playerId)
+            // Construímos um objeto limpo para o PUT.
+            // MOTIVO: Evitar enviar campos "lixo" ou duplicados que a API possa ter gerado.
             const updatedEntry = {
                 username: hallEntry.username,
                 score: newScore,
-                playerId: hallEntry.playerId, // Manter a chave correta (camelCase)
+                playerId: hallEntry.playerId,
                 pokemons: teamToSave
             };
 
-            // 2. Atualizar o registo no Hall of Fame
+            // 2. PUT: Atualizar o registo na base de dados
             await fetch(`${MOCK_API_URL_HALL}/${hallEntry.id}`, { 
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(updatedEntry)
             });
 
+            // Feedback visual no log de batalha (se a função log existir)
             if (typeof log === "function") {
                 const msg = pointsToAdd > 0 
                     ? `🏅 Vitória! (+${pointsToAdd} pontos)` 
@@ -61,9 +66,10 @@ async function updateScore(pointsToAdd) {
     }
 }
 
+// Carrega e desenha a lista de melhores jogadores
 async function loadRanking() {
     try {
-        // Ler da tabela HallOfFame
+        // GET: Buscar todos os registos
         const res = await fetch(MOCK_API_URL_HALL);
         const data = await res.json();
 
@@ -75,14 +81,16 @@ async function loadRanking() {
 
         list.innerHTML = '';
 
-        // Ordenação de Arrays: .sort()
-        // Ordena por score (decrescente) e pega os top 10 (.slice)
+        // ORDENAÇÃO (SORT):
+        // Ordenamos o array de forma decrescente (b - a) baseada no score.
+        // Usamos .slice(0, 10) para mostrar apenas o TOP 10 (Performance e UI limpa).
         data.sort((a, b) => (Number(b.score) || 0) - (Number(a.score) || 0))
             .slice(0, 10)
             .forEach((entry, index) => {
                 const li = document.createElement('li');
                 const rank = index + 1;
                 
+                // Atribuição de medalhas para o pódio
                 let medal = `<span class="rank-num">#${rank}</span>`;
                 let specialClass = '';
 
@@ -90,7 +98,7 @@ async function loadRanking() {
                 else if (rank === 2) { medal = '🥈'; specialClass = 'rank-silver'; }
                 else if (rank === 3) { medal = '🥉'; specialClass = 'rank-bronze'; }
 
-                // Gerar HTML das imagens dos pokémons (se existirem)
+                // Renderização das imagens da equipa (se existirem)
                 let teamHtml = '';
                 if (Array.isArray(entry.pokemons)) {
                     teamHtml = '<div class="rank-team">';
@@ -100,6 +108,7 @@ async function loadRanking() {
                     teamHtml += '</div>';
                 }
 
+                // Template String para criar o HTML do cartão
                 li.className = `ranking-item ${specialClass}`;
                 li.innerHTML = `
                     <div class="rank-left">${medal} <span class="rank-name">${entry.username}</span> ${teamHtml}</div>
@@ -112,5 +121,5 @@ async function loadRanking() {
     }
 }
 
-// Carregar o ranking assim que a página do jogo abrir
+// Carrega o ranking assim que o DOM estiver pronto
 document.addEventListener('DOMContentLoaded', loadRanking);

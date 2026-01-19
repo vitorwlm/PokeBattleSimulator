@@ -76,7 +76,6 @@ body {
     margin-top: 10px;
 }
 
-/* Modal de Detalhes */
 .pokedex-modal {
     display: none;
     position: fixed;

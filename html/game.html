@@ -1,5 +1,6 @@
-<!-- [CTeSP] Página do Jogo
-     Funciona como uma SPA (Single Page Application) simples, alternando visibilidade de divs.
+<!-- 
+  PÁGINA DO JOGO
+  Estrutura principal onde ocorre a seleção de equipa e a batalha.
 -->
 <!DOCTYPE html>
 <html lang="pt">
@@ -17,15 +18,13 @@
 
 <body>
 
-  <!-- Fase 1: Seleção de Equipa -->
-  <!-- Secção de Seleção de Pokémon -->
+  <!-- FASE 1: SELEÇÃO DE EQUIPA -->
   <div id="pokemon-selection" class="selection-container">
     <h2>Escolhe a tua Equipa (3 Pokémons)</h2>
     
-    <!-- Visualização da Equipa Selecionada -->
+    <!-- Contentor Sticky: Mantém a equipa visível enquanto se faz scroll -->
     <div id="selection-sticky-container">
         <div id="team-preview" class="flex justify-center gap-4 min-h-[100px]">
-            <!-- Slots vazios ou preenchidos -->
         </div>
         <button id="start-battle-btn" class="hidden bg-green-500 text-white font-bold py-2 px-6 rounded-full mb-4 hover:bg-green-600 transition-colors" onclick="startTeamBattle()">INICIAR BATALHA</button>
     </div>
@@ -36,11 +35,10 @@
     </div>
     
     <div id="pokemon-list" class="pokemon-grid">
-      <!-- Será preenchido dinamicamente -->
     </div>
   </div>
 
-  <!-- Fase 2: Arena de Batalha (Inicialmente oculta) -->
+  <!-- FASE 2: ARENA DE BATALHA (Inicialmente oculta via CSS) -->
   <div class="main-container" id="main-container" style="display: none;">
 
     <div class="battle-arena">

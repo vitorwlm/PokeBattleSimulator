@@ -1,5 +1,7 @@
-// [CTeSP] Pokédex
-// Exemplo de consumo de API e criação dinâmica de HTML.
+/**
+ * [POKÉDEX]
+ * Lista todos os pokémons e mostra detalhes em um modal.
+ */
 
 let allPokemon = [];
 
@@ -7,7 +9,7 @@ async function initPokedex() {
     const grid = document.getElementById('pokedex-grid');
     
     try {
-        // OTIMIZAÇÃO: Buscar lista leve (1 pedido) em vez de 151 pedidos pesados
+        // OTIMIZAÇÃO: Buscar lista leve (apenas nomes e urls) num único pedido.
         const res = await fetch('https://pokeapi.co/api/v2/pokemon?limit=151');
         const data = await res.json();
         
@@ -19,6 +21,7 @@ async function initPokedex() {
         
         renderGrid(allPokemon);
 
+        // Filtro de pesquisa em tempo real
         document.getElementById('pokedex-search').addEventListener('input', (e) => {
             const term = e.target.value.toLowerCase();
             const filtered = allPokemon.filter(p => 
@@ -32,6 +35,7 @@ async function initPokedex() {
     }
 }
 
+// Renderiza os cartões simples na grelha
 function renderGrid(list) {
     const grid = document.getElementById('pokedex-grid');
     grid.innerHTML = '';
@@ -39,6 +43,7 @@ function renderGrid(list) {
     list.forEach(pokemon => {
         const card = document.createElement('div');
         card.className = 'poke-card';
+        // loading="lazy" ajuda na performance ao não carregar imagens fora do ecrã
         card.innerHTML = `
             <img src="${SPRITE_BASE_URL}${pokemon.id}.png" alt="${pokemon.name}" loading="lazy">
             <p>#${pokemon.id} ${pokemon.name}</p>
@@ -48,7 +53,8 @@ function renderGrid(list) {
     });
 }
 
-// Carrega detalhes apenas quando o utilizador clica (Otimização)
+// LAZY LOADING DE DETALHES:
+// Só fazemos o fetch dos dados pesados (stats, descrição) quando o utilizador clica.
 async function loadAndShowDetails(partialPokemon) {
     const modal = document.getElementById('pokedex-modal');
     const container = document.getElementById('pokemon-details');
@@ -57,11 +63,11 @@ async function loadAndShowDetails(partialPokemon) {
     container.innerHTML = '<p>A ler dados da Pokébola...</p>';
 
     try {
-        // Buscar detalhes completos agora (apenas quando necessário)
+        // 1. Fetch detalhes do Pokémon
         const res = await fetch(partialPokemon.url);
         const pokemon = await res.json();
 
-        // Buscar descrição (species endpoint)
+        // 2. Fetch descrição (endpoint separado 'species')
         const speciesRes = await fetch(pokemon.species.url);
         const speciesData = await speciesRes.json();
         const description = speciesData.flavor_text_entries.find(e => e.language.name === 'en').flavor_text;
@@ -93,7 +99,7 @@ async function loadAndShowDetails(partialPokemon) {
             </div>
         `;
 
-        // Animar as barras de stats
+        // Pequeno delay para permitir que a animação CSS da barra de stats funcione
         setTimeout(() => {
             document.querySelectorAll('.stat-bar-fill').forEach(bar => {
                 bar.style.width = bar.getAttribute('data-width');
@@ -105,7 +111,7 @@ async function loadAndShowDetails(partialPokemon) {
     }
 }
 
-// Fechar Modal
+// Event Listeners para fechar o modal
 document.querySelector('.close-modal').onclick = () => {
     document.getElementById('pokedex-modal').style.display = 'none';
 };

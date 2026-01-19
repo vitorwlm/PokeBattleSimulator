@@ -1,24 +1,25 @@
+/**
+ * [BARRA DE NAVEGAÇÃO DINÂMICA]
+ * Este script gera o HTML da navbar via JavaScript.
+ * MOTIVO: Evita copiar e colar o código da navbar em todas as páginas HTML.
+ * Se quisermos mudar um link, mudamos apenas aqui.
+ */
 document.addEventListener('DOMContentLoaded', () => {
-    // O CSS da Navbar foi movido para o <head> dos ficheiros HTML para evitar o efeito de "flicker"
-    // 2. Criar a estrutura HTML da Navbar
     const nav = document.createElement('nav');
     nav.className = 'main-navbar';
 
-    // 2.1. Marca / Logo (Esquerda)
     const brand = document.createElement('a');
     brand.className = 'nav-brand';
     brand.innerText = 'PokéBattle';
     brand.href = '/index.html';
     nav.appendChild(brand);
 
-    // Definir os links (Ajuste os caminhos se necessário)
     const links = [
         { text: 'Início', href: '/index.html' },
         { text: 'Pokédex', href: '/html/pokedex.html' },
         { text: 'Hall of Fame', href: '/html/halloffame.html' }
     ];
 
-    // 2.2. Links (Centro)
     const ul = document.createElement('ul');
     ul.className = 'nav-links';
 
@@ -28,9 +29,9 @@ document.addEventListener('DOMContentLoaded', () => {
         a.innerText = link.text;
         a.href = link.href;
 
-        // Adicionar classe 'active' se for a página atual
+        // Lógica para destacar a página atual (Active State)
+        // Compara o URL atual do navegador com o link do botão
         const currentPath = window.location.pathname;
-        // Normalizar caminhos para garantir match correto
         const normalizedPath = currentPath === '/' ? '/index.html' : currentPath;
         
         if (normalizedPath.toLowerCase() === link.href.toLowerCase()) {
@@ -43,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     nav.appendChild(ul);
 
-    // 2.3. Secção de utilizador (Direita)
+    // Verifica se há utilizador logado para mostrar o nome e botão de Logout
     const currentUser = localStorage.getItem('currentUser');
     if (currentUser) {
         const user = JSON.parse(currentUser);
@@ -59,6 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
         logoutBtn.innerText = 'SAIR';
         logoutBtn.onclick = () => {
             if (confirm('Tem a certeza que quer fazer logout?')) {
+                // Limpeza de sessão: removemos os dados do localStorage
                 localStorage.removeItem('currentUser');
                 localStorage.removeItem('selectedPokemon');
                 window.location.href = '/index.html';
@@ -69,6 +71,6 @@ document.addEventListener('DOMContentLoaded', () => {
         nav.appendChild(userDiv);
     }
 
-    // 3. Adicionar ao início do body
+    // Insere a navbar no topo do body (antes de qualquer outro conteúdo)
     document.body.insertBefore(nav, document.body.firstChild);
 });

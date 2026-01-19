@@ -1,6 +1,3 @@
-<!-- [CTeSP] Página Inicial
-     Usa Tailwind CSS para estilização rápida.
--->
 <!DOCTYPE html>
 <html lang="pt">
 
@@ -37,7 +34,6 @@
         }
     </script>
     <style>
-        /* Compatibilidade com modal.js */
         #auth-modal { display: none; }
         #auth-modal.show { display: flex; }
     </style>
@@ -46,7 +42,6 @@
 
 <body class="bg-slate-50 min-h-screen font-sans relative overflow-hidden">
 
-    <!-- Background Decorativo -->
     <div class="absolute inset-0 z-0 opacity-10 pointer-events-none overflow-hidden" aria-hidden="true">
         <div class="absolute top-0 left-1/4 w-96 h-96 bg-pokeRed rounded-full mix-blend-multiply filter blur-3xl animate-blob"></div>
         <div class="absolute top-0 right-1/4 w-96 h-96 bg-pokeBlue rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"></div>
@@ -55,7 +50,6 @@
 
     <div class="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 text-center">
         
-        <!-- Logo / Título -->
         <div class="mb-12 transform hover:scale-105 transition-transform duration-500">
             <h1 class="text-6xl md:text-8xl font-extrabold text-pokeYellow tracking-tighter drop-shadow-xl" style="-webkit-text-stroke: 3px #3B4CCA;">
                 PokéBattle
@@ -67,7 +61,6 @@
             Para começar a jogar, registre-se ou faça login.
         </h2>
 
-        <!-- Botões de ação -->
         <div class="flex flex-col sm:flex-row gap-6 w-full max-w-4xl justify-center items-center">
             <button id="auth" class="group relative px-8 py-4 bg-pokeBlue text-white font-bold text-xl rounded-2xl shadow-[0_6px_0_0_#2a3b93] hover:shadow-[0_3px_0_0_#2a3b93] hover:translate-y-[3px] active:shadow-none active:translate-y-[6px] transition-all w-full sm:w-auto min-w-[200px]">
                 AUTENTICAÇÃO
@@ -87,12 +80,9 @@
         </div>
     </div>
 
-    <!-- Modais (Janelas Pop-up) -->
-    <!-- Modal -->
     <div id="auth-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="modal-title">
         <div class="bg-white rounded-3xl shadow-2xl w-full max-w-4xl overflow-hidden flex flex-col md:flex-row">
             
-            <!-- Login Section -->
             <div class="flex-1 p-8 md:p-12 border-b md:border-b-0 md:border-r border-gray-100 relative overflow-hidden">
                 <div class="absolute top-0 left-0 w-full h-2 bg-pokeBlue"></div>
                 <h3 class="text-3xl font-black text-gray-800 mb-8 flex items-center gap-3">
@@ -111,7 +101,6 @@
                 </form>
             </div>
 
-            <!-- Register Section -->
             <div class="flex-1 p-8 md:p-12 bg-gray-50 relative overflow-hidden">
                 <div class="absolute top-0 left-0 w-full h-2 bg-pokeRed"></div>
                 <h3 class="text-3xl font-black text-gray-800 mb-8 flex items-center gap-3">
