@@ -68,7 +68,13 @@ input[type="password"] {
     }
 }
 
+#auth-modal {
+    display: none !important;
+}
 
+#auth-modal.show {
+    display: flex !important;
+}
 
 .hall-of-fame-body {
     justify-content: flex-start;
