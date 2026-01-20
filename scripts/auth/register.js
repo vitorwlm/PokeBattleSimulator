@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // 1. Validação: Verificar se o utilizador já existe antes de criar
                 const checkResponse = await fetch(MOCK_API_URL);
                 if (!checkResponse.ok) throw new Error("Erro ao verificar utilizadores");
-                
+
                 const users = await checkResponse.json();
                 // .find() retorna o primeiro elemento que satisfaz a condição
                 const userExists = users.find(

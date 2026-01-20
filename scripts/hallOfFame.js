@@ -7,7 +7,7 @@
 // Recebe pontos positivos (vitória) ou negativos (derrota/desistência).
 async function updateScore(pointsToAdd) {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    
+
     if (!currentUser || !currentUser.id) {
         console.error("Erro: Utilizador não autenticado ou ID em falta.");
         return;
@@ -21,7 +21,7 @@ async function updateScore(pointsToAdd) {
 
         if (data.length > 0) {
             const hallEntry = data[0];
-            
+
             // Calcular novo score garantindo que não fica negativo
             let newScore = (Number(hallEntry.score) || 0) + pointsToAdd;
             if (newScore < 0) newScore = 0;
@@ -46,7 +46,7 @@ async function updateScore(pointsToAdd) {
             };
 
             // 2. PUT: Atualizar o registo na base de dados
-            await fetch(`${MOCK_API_URL_HALL}/${hallEntry.id}`, { 
+            await fetch(`${MOCK_API_URL_HALL}/${hallEntry.id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(updatedEntry)
@@ -54,8 +54,8 @@ async function updateScore(pointsToAdd) {
 
             // Feedback visual no log de batalha (se a função log existir)
             if (typeof log === "function") {
-                const msg = pointsToAdd > 0 
-                    ? `🏅 Vitória! (+${pointsToAdd} pontos)` 
+                const msg = pointsToAdd > 0
+                    ? `🏅 Vitória! (+${pointsToAdd} pontos)`
                     : `💀 Derrota... (${pointsToAdd} pontos)`;
                 log(msg);
             }
@@ -89,7 +89,7 @@ async function loadRanking() {
             .forEach((entry, index) => {
                 const li = document.createElement('li');
                 const rank = index + 1;
-                
+
                 // Atribuição de medalhas para o pódio
                 let medal = `<span class="rank-num">#${rank}</span>`;
                 let specialClass = '';

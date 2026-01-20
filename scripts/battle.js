@@ -19,7 +19,7 @@ function startBattleLogic(pTeam, eTeam) {
 
     player = playerTeam[playerIndex];
     enemy = enemyTeam[enemyIndex];
-    
+
     updateTeamIndicators();
     renderGame();
 }
@@ -89,7 +89,7 @@ function showSwitchMenu() {
         const btn = document.createElement('button');
         btn.innerText = `${p.name} (${p.currentHp}/${p.maxHp})`;
         btn.className = "move-btn";
-        
+
         // Desativa o botão se for o pokémon atual ou se estiver desmaiado (HP <= 0)
         if (index === playerIndex || p.currentHp <= 0) {
             btn.disabled = true;
@@ -115,7 +115,7 @@ function addBackButton(container) {
 // LÓGICA DE ATAQUE (TURNO DO JOGADOR)
 async function handleAttack(move) {
     toggleButtons(false); // Bloqueia botões para evitar cliques múltiplos
-    
+
     const damage = calculateDamage(player, enemy);
     enemy.currentHp -= damage;
     animateDamage('enemy');
@@ -127,7 +127,7 @@ async function handleAttack(move) {
     // Verifica se o inimigo desmaiou
     if (enemy.currentHp === 0) {
         log(`${enemy.name} desmaiou!`);
-        
+
         if (enemyIndex < enemyTeam.length - 1) {
             // Se ainda houver inimigos, troca automaticamente após 1.5s
             setTimeout(() => {
@@ -151,7 +151,7 @@ async function handleAttack(move) {
 function performSwitch(newIndex) {
     playerIndex = newIndex;
     player = playerTeam[playerIndex];
-    
+
     log(`Trocaste para ${player.name}!`);
     renderGame();
     updateTeamIndicators();
@@ -176,9 +176,9 @@ async function executeEnemyTurn() {
     // Verifica se o jogador perdeu
     if (player.currentHp === 0) {
         log(`${player.name} desmaiou...`);
-        
+
         const hasAlivePokemon = playerTeam.some(p => p.currentHp > 0);
-        
+
         // Auto-switch se houver pokémons vivos, senão Game Over
         if (hasAlivePokemon) {
             setTimeout(() => {
@@ -197,7 +197,7 @@ async function executeEnemyTurn() {
 // Troca automática para o próximo pokémon vivo do jogador
 function switchPlayerPokemon() {
     const nextIndex = playerTeam.findIndex((p, i) => i > playerIndex && p.currentHp > 0);
-    
+
     if (nextIndex !== -1) {
         playerIndex = nextIndex;
     } else {
@@ -223,9 +223,9 @@ function switchEnemyPokemon() {
 function updateTeamIndicators() {
     const pContainer = document.getElementById('player-team-indicator');
     const eContainer = document.getElementById('enemy-team-indicator');
-    
+
     pContainer.innerHTML = playerTeam.map((p, i) => p.currentHp <= 0 ? '⚫' : '🔵').join('');
-    
+
     eContainer.innerHTML = enemyTeam.map((p, i) => p.currentHp <= 0 ? '⚫' : '🔴').join('');
 }
 
@@ -256,7 +256,7 @@ const TYPE_CHART = {
 // Fórmula de Dano: (Ataque / Defesa) * Multiplicador de Tipo * Fator Aleatório
 function calculateDamage(attacker, defender) {
     let multiplier = 1;
-    
+
     const attType = attacker.types[0];
     const defType = defender.types[0];
 
@@ -282,8 +282,8 @@ function updateHealthUI(type, pokemon) {
     const bar = document.getElementById(`${type}-hp-bar`);
     bar.style.width = `${percent}%`;
     document.getElementById(`${type}-hp-text`).innerText = `${pokemon.currentHp}/${pokemon.maxHp}`;
-    
-    if(percent < 20) {
+
+    if (percent < 20) {
         bar.classList.add('low');
     } else {
         bar.classList.remove('low');
@@ -302,7 +302,7 @@ function toggleButtons(enable) {
 function showRestartButton() {
     const container = document.getElementById('moves-container');
     container.innerHTML = '';
-    
+
     const btn = document.createElement('button');
     btn.innerText = "Jogar Novamente";
     btn.className = "move-btn";
@@ -323,18 +323,18 @@ function animateDamage(target) {
 document.addEventListener('DOMContentLoaded', () => {
     document.body.addEventListener('click', async (e) => {
         const link = e.target.closest('.sidebar-link, .main-navbar a');
-        
+
         if (!link) return;
 
         const battleContainer = document.getElementById('main-container');
 
         const isBattleVisible = battleContainer && battleContainer.style.display !== 'none';
-        const isBattleOngoing = typeof player !== 'undefined' && typeof enemy !== 'undefined' && 
-                                player.currentHp > 0 && enemy.currentHp > 0;
+        const isBattleOngoing = typeof player !== 'undefined' && typeof enemy !== 'undefined' &&
+            player.currentHp > 0 && enemy.currentHp > 0;
 
         if (isBattleVisible && isBattleOngoing) {
             e.preventDefault();
-            
+
             const message = "⚠️ ALERTA DE BATALHA ⚠️\n\nSe saíres agora, será considerada uma desistência!\nPerderás 5 pontos no Hall of Fame.\n\nTens a certeza que queres sair?";
 
             if (confirm(message)) {

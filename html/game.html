@@ -21,19 +21,21 @@
   <!-- FASE 1: SELEÇÃO DE EQUIPA -->
   <div id="pokemon-selection" class="selection-container">
     <h2>Escolhe a tua Equipa (3 Pokémons)</h2>
-    
+
     <!-- Contentor Sticky: Mantém a equipa visível enquanto se faz scroll -->
     <div id="selection-sticky-container">
-        <div id="team-preview" class="flex justify-center gap-4 min-h-[100px]">
-        </div>
-        <button id="start-battle-btn" class="hidden bg-green-500 text-white font-bold py-2 px-6 rounded-full mb-4 hover:bg-green-600 transition-colors" onclick="startTeamBattle()">INICIAR BATALHA</button>
+      <div id="team-preview" class="flex justify-center gap-4 min-h-[100px]">
+      </div>
+      <button id="start-battle-btn"
+        class="hidden bg-green-500 text-white font-bold py-2 px-6 rounded-full mb-4 hover:bg-green-600 transition-colors"
+        onclick="startTeamBattle()">INICIAR BATALHA</button>
     </div>
 
     <div class="search-container">
       <label for="pokemon-search" class="sr-only">Pesquisar Pokémon pelo nome</label>
       <input type="text" id="pokemon-search" placeholder="Pesquisa pelo nome..." class="pokemon-search" />
     </div>
-    
+
     <div id="pokemon-list" class="pokemon-grid">
     </div>
   </div>
@@ -49,7 +51,8 @@
         <img id="enemy-img" src="" alt="Inimigo" />
 
         <div class="hp-container">
-          <div id="enemy-hp-bar" class="hp-fill" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" aria-label="Vida do Inimigo"></div>
+          <div id="enemy-hp-bar" class="hp-fill" role="progressbar" aria-valuenow="100" aria-valuemin="0"
+            aria-valuemax="100" aria-label="Vida do Inimigo"></div>
         </div>
         <p id="enemy-hp-text">HP: 0/0</p>
       </div>
@@ -62,7 +65,8 @@
         <h2 id="player-name">Carregando...</h2>
 
         <div class="hp-container">
-          <div id="player-hp-bar" class="hp-fill" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" aria-label="Vida do Jogador"></div>
+          <div id="player-hp-bar" class="hp-fill" role="progressbar" aria-valuenow="100" aria-valuemin="0"
+            aria-valuemax="100" aria-label="Vida do Jogador"></div>
         </div>
         <p id="player-hp-text">HP: 0/0</p>
 
@@ -76,11 +80,11 @@
 
   </div>
 
-<script src="/scripts/config.js"></script>
-<script src="/scripts/hallOfFame.js"></script>
-<script src="/scripts/auth/session.js"></script>
-<script src="/scripts/battle.js"></script>
-<script src="/scripts/setup.js"></script>
+  <script src="/scripts/config.js"></script>
+  <script src="/scripts/hallOfFame.js"></script>
+  <script src="/scripts/auth/session.js"></script>
+  <script src="/scripts/battle.js"></script>
+  <script src="/scripts/setup.js"></script>
 </body>
 
 </html>

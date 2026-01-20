@@ -5,12 +5,12 @@
  */
 function checkSession() {
     const currentUser = localStorage.getItem('currentUser');
-    
+
     if (!currentUser) {
         window.location.href = '/index.html';
         return;
     }
-    
+
     try {
         JSON.parse(currentUser);
     } catch (error) {

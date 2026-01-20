@@ -34,8 +34,13 @@
         }
     </script>
     <style>
-        #auth-modal { display: none; }
-        #auth-modal.show { display: flex; }
+#auth-modal {
+    display: none;
+}
+
+#auth-modal.show {
+    display: flex;
+}
     </style>
     <title>PokeBattle Simulator</title>
 </head>
@@ -43,46 +48,64 @@
 <body class="bg-slate-50 min-h-screen font-sans relative overflow-hidden">
 
     <div class="absolute inset-0 z-0 opacity-10 pointer-events-none overflow-hidden" aria-hidden="true">
-        <div class="absolute top-0 left-1/4 w-96 h-96 bg-pokeRed rounded-full mix-blend-multiply filter blur-3xl animate-blob"></div>
-        <div class="absolute top-0 right-1/4 w-96 h-96 bg-pokeBlue rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"></div>
-        <div class="absolute -bottom-32 left-1/3 w-96 h-96 bg-pokeYellow rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-4000"></div>
+        <div
+            class="absolute top-0 left-1/4 w-96 h-96 bg-pokeRed rounded-full mix-blend-multiply filter blur-3xl animate-blob">
+        </div>
+        <div
+            class="absolute top-0 right-1/4 w-96 h-96 bg-pokeBlue rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000">
+        </div>
+        <div
+            class="absolute -bottom-32 left-1/3 w-96 h-96 bg-pokeYellow rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-4000">
+        </div>
     </div>
 
     <div class="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 text-center">
-        
+
         <div class="mb-12 transform hover:scale-105 transition-transform duration-500">
-            <h1 class="text-6xl md:text-8xl font-extrabold text-pokeYellow tracking-tighter drop-shadow-xl" style="-webkit-text-stroke: 3px #3B4CCA;">
+            <h1 class="text-6xl md:text-8xl font-extrabold text-pokeYellow tracking-tighter drop-shadow-xl"
+                style="-webkit-text-stroke: 3px #3B4CCA;">
                 PokéBattle
             </h1>
-            <span class="block text-xl md:text-2xl font-bold text-gray-500 mt-2 tracking-[0.5em] uppercase">Simulator</span>
+            <span
+                class="block text-xl md:text-2xl font-bold text-gray-500 mt-2 tracking-[0.5em] uppercase">Simulator</span>
         </div>
 
-        <h2 id="welcome-text" class="text-lg text-gray-600 font-medium mb-12 bg-white/60 backdrop-blur-sm px-8 py-3 rounded-2xl shadow-sm border border-gray-200">
+        <h2 id="welcome-text"
+            class="text-lg text-gray-600 font-medium mb-12 bg-white/60 backdrop-blur-sm px-8 py-3 rounded-2xl shadow-sm border border-gray-200">
             Para começar a jogar, registre-se ou faça login.
         </h2>
 
         <div class="flex flex-col sm:flex-row gap-6 w-full max-w-4xl justify-center items-center">
-            <button id="auth" class="group relative px-8 py-4 bg-pokeBlue text-white font-bold text-xl rounded-2xl shadow-[0_6px_0_0_#2a3b93] hover:shadow-[0_3px_0_0_#2a3b93] hover:translate-y-[3px] active:shadow-none active:translate-y-[6px] transition-all w-full sm:w-auto min-w-[200px]">
+            <button id="auth"
+                class="group relative px-8 py-4 bg-pokeBlue text-white font-bold text-xl rounded-2xl shadow-[0_6px_0_0_#2a3b93] hover:shadow-[0_3px_0_0_#2a3b93] hover:translate-y-[3px] active:shadow-none active:translate-y-[6px] transition-all w-full sm:w-auto min-w-[200px]">
                 AUTENTICAÇÃO
             </button>
 
-            <button id="play-btn" class="hidden group relative px-8 py-4 bg-green-500 text-white font-bold text-xl rounded-2xl shadow-[0_6px_0_0_#15803d] hover:shadow-[0_3px_0_0_#15803d] hover:translate-y-[3px] active:shadow-none active:translate-y-[6px] transition-all w-full sm:w-auto min-w-[200px]" onclick="goToGame()">
+            <button id="play-btn"
+                class="hidden group relative px-8 py-4 bg-green-500 text-white font-bold text-xl rounded-2xl shadow-[0_6px_0_0_#15803d] hover:shadow-[0_3px_0_0_#15803d] hover:translate-y-[3px] active:shadow-none active:translate-y-[6px] transition-all w-full sm:w-auto min-w-[200px]"
+                onclick="goToGame()">
                 JOGAR
             </button>
 
-            <button class="group relative px-8 py-4 bg-white text-gray-800 font-bold text-xl rounded-2xl shadow-[0_6px_0_0_#e5e7eb] hover:shadow-[0_3px_0_0_#e5e7eb] hover:translate-y-[3px] active:shadow-none active:translate-y-[6px] transition-all border-2 border-gray-100 w-full sm:w-auto min-w-[200px]" onclick="window.location.href='/html/pokedex.html'">
+            <button
+                class="group relative px-8 py-4 bg-white text-gray-800 font-bold text-xl rounded-2xl shadow-[0_6px_0_0_#e5e7eb] hover:shadow-[0_3px_0_0_#e5e7eb] hover:translate-y-[3px] active:shadow-none active:translate-y-[6px] transition-all border-2 border-gray-100 w-full sm:w-auto min-w-[200px]"
+                onclick="window.location.href='/html/pokedex.html'">
                 <span class="group-hover:text-pokeRed transition-colors">POKÉDEX</span>
             </button>
 
-            <button class="group relative px-8 py-4 bg-pokeYellow text-pokeBlue font-bold text-xl rounded-2xl shadow-[0_6px_0_0_#B3A125] hover:shadow-[0_3px_0_0_#B3A125] hover:translate-y-[3px] active:shadow-none active:translate-y-[6px] transition-all w-full sm:w-auto min-w-[200px]" onclick="window.location.href='/html/halloffame.html'">
-                RANKING
+            <button
+                class="group relative px-8 py-4 bg-pokeYellow text-pokeBlue font-bold text-xl rounded-2xl shadow-[0_6px_0_0_#B3A125] hover:shadow-[0_3px_0_0_#B3A125] hover:translate-y-[3px] active:shadow-none active:translate-y-[6px] transition-all w-full sm:w-auto min-w-[200px]"
+                onclick="window.location.href='/html/halloffame.html'">
+                HALL OF FAME
+
             </button>
         </div>
     </div>
 
-    <div id="auth-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div id="auth-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm items-center justify-center p-4"
+        role="dialog" aria-modal="true" aria-labelledby="modal-title">
         <div class="bg-white rounded-3xl shadow-2xl w-full max-w-4xl overflow-hidden flex flex-col md:flex-row">
-            
+
             <div class="flex-1 p-8 md:p-12 border-b md:border-b-0 md:border-r border-gray-100 relative overflow-hidden">
                 <div class="absolute top-0 left-0 w-full h-2 bg-pokeBlue"></div>
                 <h3 class="text-3xl font-black text-gray-800 mb-8 flex items-center gap-3">
@@ -90,14 +113,19 @@
                 </h3>
                 <form id="login-form" class="space-y-6">
                     <div>
-                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2" for="login-username">Utilizador</label>
-                        <input type="text" id="login-username" name="username" required class="w-full bg-gray-50 border-2 border-gray-200 rounded-xl px-4 py-3 font-bold text-gray-700 focus:border-pokeBlue focus:bg-white focus:outline-none transition-colors">
+                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2"
+                            for="login-username">Utilizador</label>
+                        <input type="text" id="login-username" name="username" required
+                            class="w-full bg-gray-50 border-2 border-gray-200 rounded-xl px-4 py-3 font-bold text-gray-700 focus:border-pokeBlue focus:bg-white focus:outline-none transition-colors">
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2" for="login-password">Senha</label>
-                        <input type="password" id="login-password" name="password" required class="w-full bg-gray-50 border-2 border-gray-200 rounded-xl px-4 py-3 font-bold text-gray-700 focus:border-pokeBlue focus:bg-white focus:outline-none transition-colors">
+                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2"
+                            for="login-password">Senha</label>
+                        <input type="password" id="login-password" name="password" required
+                            class="w-full bg-gray-50 border-2 border-gray-200 rounded-xl px-4 py-3 font-bold text-gray-700 focus:border-pokeBlue focus:bg-white focus:outline-none transition-colors">
                     </div>
-                    <button type="submit" class="w-full bg-pokeBlue hover:bg-blue-600 text-white font-bold py-4 rounded-xl shadow-lg transform active:scale-95 transition-all">ENTRAR</button>
+                    <button type="submit"
+                        class="w-full bg-pokeBlue hover:bg-blue-600 text-white font-bold py-4 rounded-xl shadow-lg transform active:scale-95 transition-all">ENTRAR</button>
                 </form>
             </div>
 
@@ -108,30 +136,39 @@
                 </h3>
                 <form id="register-form" class="space-y-4">
                     <div>
-                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1" for="reg-email">Email</label>
-                        <input type="email" id="reg-email" name="email" required class="w-full bg-white border-2 border-gray-200 rounded-xl px-4 py-3 font-bold text-gray-700 focus:border-pokeRed focus:outline-none transition-colors">
+                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1"
+                            for="reg-email">Email</label>
+                        <input type="email" id="reg-email" name="email" required
+                            class="w-full bg-white border-2 border-gray-200 rounded-xl px-4 py-3 font-bold text-gray-700 focus:border-pokeRed focus:outline-none transition-colors">
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1" for="reg-username">Utilizador</label>
-                        <input type="text" id="reg-username" name="username" required class="w-full bg-white border-2 border-gray-200 rounded-xl px-4 py-3 font-bold text-gray-700 focus:border-pokeRed focus:outline-none transition-colors">
+                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1"
+                            for="reg-username">Utilizador</label>
+                        <input type="text" id="reg-username" name="username" required
+                            class="w-full bg-white border-2 border-gray-200 rounded-xl px-4 py-3 font-bold text-gray-700 focus:border-pokeRed focus:outline-none transition-colors">
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1" for="reg-password">Senha</label>
-                        <input type="password" id="reg-password" name="password" required class="w-full bg-white border-2 border-gray-200 rounded-xl px-4 py-3 font-bold text-gray-700 focus:border-pokeRed focus:outline-none transition-colors">
+                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1"
+                            for="reg-password">Senha</label>
+                        <input type="password" id="reg-password" name="password" required
+                            class="w-full bg-white border-2 border-gray-200 rounded-xl px-4 py-3 font-bold text-gray-700 focus:border-pokeRed focus:outline-none transition-colors">
                     </div>
-                    <button type="submit" class="w-full bg-pokeRed hover:bg-red-600 text-white font-bold py-4 rounded-xl shadow-lg transform active:scale-95 transition-all mt-2">CRIAR CONTA</button>
+                    <button type="submit"
+                        class="w-full bg-pokeRed hover:bg-red-600 text-white font-bold py-4 rounded-xl shadow-lg transform active:scale-95 transition-all mt-2">CRIAR
+                        CONTA</button>
                 </form>
             </div>
 
         </div>
     </div>
-<script src="/scripts/config.js"></script>
-<script src="/scripts/modal.js"></script>
-<script src="/scripts/auth/login.js"></script>
-<script src="/scripts/auth/register.js"></script>
-<script src="/scripts/menu.js"></script>
-<script src="/scripts/navbar.js"></script>
-    
+    <script src="/scripts/config.js"></script>
+    <script src="/scripts/modal.js"></script>
+    <script src="/scripts/auth/login.js"></script>
+    <script src="/scripts/auth/register.js"></script>
+    <script src="/scripts/menu.js"></script>
+    <script src="/scripts/navbar.js"></script>
+
 
 </body>
+
 </html>
