@@ -1,2 +1,74 @@
-vida a vermelho quando mato pokemon 
-as bolas dos pokemons vivos
+Com certeza! Preparar a defesa é tão importante quanto o código. Como tens de apresentar isto num politécnico (1º ano), os professores vão valorizar a clareza, a justificação das escolhas e o domínio sobre o código.
+
+Aqui tens um kit de preparação completo para a tua defesa:
+
+1. Roteiro de Apresentação (Sugestão de Fluxo)
+Não leias slides. Conta uma história sobre como o projeto funciona.
+
+Introdução (30 seg):
+
+"O meu projeto é o PokéBattle Simulator, uma aplicação web Single Page (SPA) que simula batalhas Pokémon da 1ª geração."
+"O objetivo foi consolidar conhecimentos de HTML, CSS, JavaScript Assíncrono e consumo de APIs REST."
+Arquitetura e Tecnologias (1 min):
+
+"Utilizei HTML5 e CSS3 (com variáveis e Flexbox/Grid) para a estrutura."
+"O JavaScript é o motor da aplicação. Uso a PokéAPI para obter dados reais dos Pokémon e uma MockAPI para simular uma base de dados de utilizadores e ranking."
+"Destaque para a separação de responsabilidades: tenho ficheiros específicos para autenticação, batalha, pokedex e UI."
+Demonstração Funcional (O "Caminho Feliz" - 2 min):
+
+(Enquanto navegas): "Vou demonstrar o fluxo: Registo de utilizador -> Login -> Seleção de Equipa (com filtro) -> Batalha -> Visualização no Hall of Fame."
+Dica: Menciona que a Navbar é gerada dinamicamente via JS para não repetir código.
+Mergulho Técnico (O "Ponto Alto" - 1 min):
+
+"Um dos maiores desafios foi a performance. Por exemplo, no carregamento da batalha (initGame), utilizei Promise.all para carregar os 6 Pokémons (3 meus, 3 do inimigo) simultaneamente, em vez de um a um, o que torna o jogo muito mais rápido."
+Conclusão e Futuro (30 seg):
+
+"O projeto é funcional e responsivo. No futuro, gostaria de implementar multiplayer real via WebSockets e adicionar mais gerações."
+2. Perguntas Prováveis dos Professores (e Respostas)
+Prepara-te para estas perguntas. Elas testam se foste tu que fizeste o código.
+
+P: Porque usaste async/await em vez de .then()?
+
+R: "O async/await torna o código assíncrono mais legível e parecido com código síncrono. Facilita a manutenção e o tratamento de erros com blocos try/catch, especialmente quando tenho de esperar por respostas da API antes de desenhar o ecrã."
+
+P: Como geres a sessão do utilizador?
+
+R: "Utilizo o localStorage do navegador. Quando o utilizador faz login, guardo o objeto do utilizador. Em cada página protegida (como o jogo), o script session.js verifica se esse objeto existe. Se não existir, redireciona para o login."
+
+P: Porque criaste a Navbar com JavaScript (navbar.js) em vez de HTML?
+
+R: "Para respeitar o princípio DRY (Don't Repeat Yourself). Se eu quisesse mudar um link no menu, teria de editar 4 ficheiros HTML diferentes. Assim, edito apenas num sítio e reflete-se em todo o projeto."
+
+P: Como funciona a lógica de turnos na batalha?
+
+R: "É uma máquina de estados simples controlada por eventos e setTimeout. Quando o jogador ataca, bloqueio os botões, calculo o dano, e agendo o contra-ataque do inimigo para 1.5 segundos depois, dando tempo ao jogador para ler o log de batalha."
+
+P: Porque separaste a tabela Players da tabela HallOfFame na MockAPI?
+
+R: "Para normalização de dados e segurança. A tabela Players guarda dados sensíveis (password, email), enquanto o HallOfFame guarda apenas dados públicos de jogo. Ligamos as duas através do ID (playerId), o que simula uma relação de chave estrangeira numa base de dados SQL real."
+
+3. "Cábula" de Conceitos Chave
+Se te der uma "branca", lembra-te destas palavras-chave que usaste no código:
+
+DOM Manipulation: Criar elementos HTML via JS (document.createElement). Usado na Pokedex e Navbar.
+Event Delegation: Usado nos modais e cliques globais.
+Lazy Loading: Usado na Pokédex (atributo loading="lazy" nas imagens) e no carregamento de detalhes (só carrega stats quando clicas no modal).
+Responsive Design: Media Queries no CSS para adaptar o layout de Grid para Flex em telemóveis.
+CRUD: Create (Registo), Read (Login/Ranking), Update (Pontuação no final da batalha).
+4. Destaques no Código (Para mostrares se pedirem)
+Se o professor pedir "Mostra-me uma parte do código de que te orgulhes", abre estes ficheiros:
+
+scripts/setup.js (Linha ~143): Mostra o Promise.all. É uma técnica avançada para o 1º ano e mostra preocupação com performance.
+
+javascript
+const playerTeamData = await Promise.all(
+    selectedTeamIds.map(id => fetchPokemon(id))
+);
+scripts/hallOfFame.js (Linha ~8): Mostra a função updateScore. Explica como verificas se é vitória/derrota e como atualizas a API.
+
+styles/battle.css (Linha ~32): Mostra o #selection-sticky-container. Explica que usaste position: sticky para melhorar a UX (Experiência do Utilizador), mantendo o botão visível durante o scroll.
+
+5. Dica Final
+Já tens o ficheiro dicionario funcoes.txt que criámos anteriormente. Imprime-o ou tem-no aberto num segundo ecrã. Ele é o teu mapa do tesouro se te perderes na explicação de alguma função específica.
+
+Boa sorte! O projeto está sólido e bem estruturado.
