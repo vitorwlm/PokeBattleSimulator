@@ -9,3 +9,10 @@
     --gray-200: #e5e7eb;
     --text-main: #1f2937;
 }
+#auth-modal {
+    display: none !important;
+}
+
+#auth-modal.show {
+    display: flex !important;
+}
